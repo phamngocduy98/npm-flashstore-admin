@@ -12,7 +12,7 @@ import {
     RealtimeFirestoreCollection
 } from "../internal";
 
-export type FirestoreDocumentConstructor<T extends FirestoreDocument<any>> = { new(...args: any): T };
+export type FirestoreDocumentConstructor<T extends FirestoreDocument<any>> = {new (...args: any): T};
 
 /**
  * FirestoreDocument class for Flashstore Library
@@ -35,6 +35,7 @@ export class FirestoreDocument<D extends DocumentData> extends ICollectionParent
         this.linkingDocArray = new Map();
         this.linkingDoc = new Map();
         this._dataValue = dataValue ?? new dataConstructor();
+        this._dataValue._id = ref.id;
         this.constructCollectionFrom(this._dataValue);
         let registeredLinkingItems = getRegisteredLinkingItems(this._dataValue);
         for (let linkingItem of registeredLinkingItems) {
@@ -70,14 +71,17 @@ export class FirestoreDocument<D extends DocumentData> extends ICollectionParent
             if (!this._dataValue.hasOwnProperty(key)) {
                 console.error(`Property '${key} is missing in DocumentData of '` + this.dataConstructor.name);
             }
-            if (this.linkingDocArray.has(key) && Array.isArray(data[key]) && (data[key].length === 0 || data[key][0] instanceof admin.firestore.DocumentReference)) {
+            if (
+                this.linkingDocArray.has(key) &&
+                Array.isArray(data[key]) &&
+                (data[key].length === 0 || data[key][0] instanceof admin.firestore.DocumentReference)
+            ) {
                 this.linkingDocArray.get(key)!._updateRefList(data[key]);
             } else if (this.linkingDoc.has(key) && data[key] instanceof admin.firestore.DocumentReference) {
                 this.linkingDoc.get(key)!._updateRef(data[key]);
             } else {
                 this._dataValue[key as keyof D] = data[key];
             }
-
         }
     }
 
@@ -105,12 +109,15 @@ export class FirestoreDocument<D extends DocumentData> extends ICollectionParent
         return this.ref.set(documentData.toPureObject());
     }
 
-    update(updateParams: { [K in keyof D]?: D[K] | admin.firestore.FieldValue }) {
+    update(updateParams: {[K in keyof D]?: D[K] | admin.firestore.FieldValue}) {
         this.isExists = undefined; // cached data is outed-date after updated, recall get() for new value
         return this.ref.update(updateParams);
     }
 
-    updateInBatch(batch: admin.firestore.WriteBatch, updateParams: { [K in keyof D]?: D[K] | admin.firestore.FieldValue }) {
+    updateInBatch(
+        batch: admin.firestore.WriteBatch,
+        updateParams: {[K in keyof D]?: D[K] | admin.firestore.FieldValue}
+    ) {
         this.isExists = undefined; // cached data is outed-date after updated, recall get() for new value
         return batch.update(this.ref, updateParams);
     }

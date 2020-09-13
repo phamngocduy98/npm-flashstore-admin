@@ -4,7 +4,7 @@ import {
     DocumentData,
     FirestoreCollection,
     getRegisteredCollections,
-    RealtimeFirestoreCollection,
+    RealtimeFirestoreCollection
 } from "../internal";
 
 import EventEmitter from "events";
@@ -29,9 +29,14 @@ export abstract class ICollectionParent extends EventEmitter.EventEmitter {
     constructCollectionFrom(source: any) {
         let collections = getRegisteredCollections(source);
         for (let collection of collections) {
-            let collectionInstance = collection.isRealtime ?
-                new RealtimeFirestoreCollection(this.getRoot(), this, collection.collectionName, collection.dataConstructor) :
-                new FirestoreCollection(this.getRoot(), this, collection.collectionName, collection.dataConstructor);
+            let collectionInstance = collection.isRealtime
+                ? new RealtimeFirestoreCollection(
+                      this.getRoot(),
+                      this,
+                      collection.collectionName,
+                      collection.dataConstructor
+                  )
+                : new FirestoreCollection(this.getRoot(), this, collection.collectionName, collection.dataConstructor);
             (this as any)[collection.collectionInstancePropertyKey] = collectionInstance;
             this.registerCollection(collectionInstance);
         }
@@ -52,7 +57,9 @@ export abstract class ICollectionParent extends EventEmitter.EventEmitter {
         if (paths.length % 2 === 0) return;
         const collection = this.collections.get(paths[0]);
         if (collection !== undefined) {
-            return paths.length === 1 ? collection : collection.document(paths[1]).getSubCollection(paths.slice(2).join("/"));
+            return paths.length === 1
+                ? collection
+                : collection.document(paths[1]).getSubCollection(paths.slice(2).join("/"));
         }
         return undefined;
     }

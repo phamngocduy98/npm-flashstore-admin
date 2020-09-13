@@ -1,6 +1,6 @@
-import 'mocha';
-import {expect} from 'chai';
-import * as admin from 'firebase-admin';
+import "mocha";
+import {expect} from "chai";
+import * as admin from "firebase-admin";
 
 import {
     DocumentReferenceArrays,
@@ -8,19 +8,18 @@ import {
     FirestoreDocumentTracker,
     OnArrayChangedListener
 } from "../internal";
+
 import {TestDatabase} from "../sample_db/TestDatabase";
 import {User} from "../sample_db/User";
 import {Village} from "../sample_db/Village";
-
-import serviceAccount from "../../../../../masoibot-9d4ef-firebase-adminsdk-utx7q-142ac128b1.json";
 import {Collections} from "../sample_db/CollectionNames";
 import {Well} from "../sample_db/Well";
 
 admin.initializeApp({
     credential: admin.credential.cert({
-        privateKey: serviceAccount.private_key,
-        clientEmail: serviceAccount.client_email,
-        projectId: serviceAccount.project_id,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY ?? "",
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL ?? "",
+        projectId: process.env.FIREBASE_PROJECT_ID ?? ""
     })
 });
 const db = new TestDatabase(admin.firestore());
@@ -62,7 +61,9 @@ describe("Flash store library test", function () {
         let userDoc = db.users.document("user_test");
         let villageDoc = await db.villages.create("test_village", new Village("test village", "alo", userDoc));
         // this test must be on top of any test that use village document
-        expect(() => villageDoc.linkedArray("members")!.getAt(0)).to.throw("Please get() the parent document before use linked docRef array");
+        expect(() => villageDoc.linkedArray("members")!.getAt(0)).to.throw(
+            "Please get() the parent document before use linked docRef array"
+        );
         let villageData = await villageDoc.get();
         expect(() => villageDoc.linkedArray("members")!.getAt(-1)).to.throw("Index out of bound");
         // access village.members[0]:
@@ -71,50 +72,65 @@ describe("Flash store library test", function () {
         expect(userAt0).to.equal(firstUser);
         let firstUserData = await firstUser.get();
         console.info(firstUserData);
-        expect(firstUserData, "get first user document of room.users: check property name").to.have.haveOwnProperty("name");
-        expect(firstUserData, "get first user document of room.users: check property avatarUrl").to.have.haveOwnProperty("avatarUrl");
+        expect(firstUserData, "get first user document of room.users: check property name").to.have.haveOwnProperty(
+            "name"
+        );
+        expect(
+            firstUserData,
+            "get first user document of room.users: check property avatarUrl"
+        ).to.have.haveOwnProperty("avatarUrl");
     });
 
     it("Linked Document Array: onUserArrayChangedListener.onItemInserted", (done) => {
         let newlyAddedUserId = "newlyAdded";
         let testVillage = db.villages.document("test_village");
         let onUserArrayChangedListener = new OnArrayChangedListener();
-        onUserArrayChangedListener.onItemsInserted = inserted => {
+        onUserArrayChangedListener.onItemsInserted = (inserted) => {
             expect(inserted, "inserted length").to.have.lengthOf(1);
             expect(inserted[0].ref.id, "inserted[0]").to.equal(newlyAddedUserId);
             done();
         };
-        testVillage.linkedArray("members")!.remove(db.users.document(newlyAddedUserId))
+        testVillage
+            .linkedArray("members")!
+            .remove(db.users.document(newlyAddedUserId))
             .then(() => {
                 return testVillage.get();
-            }).then(() => {
-            testVillage.linkedArray("members")!.addOnArrayChangedListener(onUserArrayChangedListener);
-        }).then(() => {
-            return testVillage.linkedArray("members")!.add(db.users.document(newlyAddedUserId));
-        }).then(() => {
-            return testVillage.get();
-        });
+            })
+            .then(() => {
+                testVillage.linkedArray("members")!.addOnArrayChangedListener(onUserArrayChangedListener);
+            })
+            .then(() => {
+                return testVillage.linkedArray("members")!.add(db.users.document(newlyAddedUserId));
+            })
+            .then(() => {
+                return testVillage.get();
+            });
     });
 
     it("Linked Document Array: onUserArrayChangedListener.onItemRemoved", (done) => {
         let newlyAddedUserId = "newlyAdded";
         let testVillage = db.villages.document("test_village");
         let onUserArrayChangedListener = new OnArrayChangedListener();
-        onUserArrayChangedListener.onItemsRemoved = removed => {
+        onUserArrayChangedListener.onItemsRemoved = (removed) => {
             expect(removed, "removed length").to.have.lengthOf(1);
             expect(removed[0].ref.id, "removed[0]").to.equal(newlyAddedUserId);
             done();
         };
-        testVillage.linkedArray("members")!.add(db.users.document(newlyAddedUserId))
+        testVillage
+            .linkedArray("members")!
+            .add(db.users.document(newlyAddedUserId))
             .then(() => {
                 return testVillage.get();
-            }).then(() => {
-            testVillage.linkedArray("members")!.addOnArrayChangedListener(onUserArrayChangedListener);
-        }).then(() => {
-            return testVillage.linkedArray("members")!.remove(db.users.document(newlyAddedUserId));
-        }).then(() => {
-            return testVillage.get();
-        });
+            })
+            .then(() => {
+                testVillage.linkedArray("members")!.addOnArrayChangedListener(onUserArrayChangedListener);
+            })
+            .then(() => {
+                return testVillage.linkedArray("members")!.remove(db.users.document(newlyAddedUserId));
+            })
+            .then(() => {
+                return testVillage.get();
+            });
     });
 
     it("Linked document", async () => {

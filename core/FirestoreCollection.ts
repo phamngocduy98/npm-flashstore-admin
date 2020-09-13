@@ -35,9 +35,9 @@ export class FirestoreCollection<D extends DocumentData> extends EventEmitter.Ev
         if (doc !== undefined) {
             return doc;
         } else {
-            let newDoc = this.isRealtime ?
-                new RealtimeFirestoreDocument(this.root, this, this.ref.doc(docId), this.dataConstructor) :
-                new FirestoreDocument(this.root, this, this.ref.doc(docId), this.dataConstructor);
+            let newDoc = this.isRealtime
+                ? new RealtimeFirestoreDocument(this.root, this, this.ref.doc(docId), this.dataConstructor)
+                : new FirestoreDocument(this.root, this, this.ref.doc(docId), this.dataConstructor);
             this._documents.set(docId, newDoc);
             return newDoc;
         }
@@ -45,11 +45,11 @@ export class FirestoreCollection<D extends DocumentData> extends EventEmitter.Ev
 
     async documents(): Promise<FirestoreDocument<D>[]> {
         let docRefs = await this.ref.listDocuments();
-        return docRefs.map(ref => this.document(ref.id));
+        return docRefs.map((ref) => this.document(ref.id));
     }
 
     async get() {
-        return this.query(ref => ref);
+        return this.query((ref) => ref);
     }
 
     async query(queryMaker: (ref: admin.firestore.CollectionReference) => admin.firestore.Query): Promise<D[]> {
@@ -95,13 +95,13 @@ export class FirestoreCollection<D extends DocumentData> extends EventEmitter.Ev
      * ALLOWED FIRESTORE DELETE OPERATION PER MINUTE IS SO LIMITED (really small to over quota easily)
      * @param resolve when the action is completed
      */
-    async clearCollection(resolve: (() => any)) {
+    async clearCollection(resolve: () => any) {
         const snapshot = await this.ref.get();
         const batchSize = snapshot.size;
         if (batchSize === 0) {
             resolve();
         }
-        await this.batchDelete(snapshot.docs.map(doc => doc.ref));
+        await this.batchDelete(snapshot.docs.map((doc) => doc.ref));
 
         // Recurse on the next process tick, to avoid exploding the stack.
         process.nextTick(() => {

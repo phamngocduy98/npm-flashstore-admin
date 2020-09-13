@@ -1,6 +1,7 @@
 import {
     Collection,
-    DocumentData, FirestoreCollection,
+    DocumentData,
+    FirestoreCollection,
     FirestoreDocument,
     LinkFirestoreDocument,
     LinkFirestoreDocumentArray
@@ -19,11 +20,7 @@ export class Village extends DocumentData {
     @Collection(Well, Collections.WELLS)
     wells!: FirestoreCollection<Well>;
 
-    constructor(
-        public name: string,
-        public description: string,
-        owner: FirestoreDocument<User>
-    ) {
+    constructor(public name: string, public description: string, owner: FirestoreDocument<User>) {
         super();
         this.owner = owner;
         this.members = [owner];

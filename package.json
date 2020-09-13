@@ -1,0 +1,23 @@
+{
+  "name": "flashstore",
+  "version": "0.0.1",
+  "description": "A firebase cloud firestore library that making it easier to CRUD data with typescript",
+  "repository": "https://github.com/phamngocduy98/node_flashstore_library",
+  "author": "Pham Ngoc Duy",
+  "license": "MIT",
+
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "publish": "npm publish"
+  },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/@phamngocduy98" },
+
+  "dependencies": {
+    "firebase-admin": "^9.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  }
+}

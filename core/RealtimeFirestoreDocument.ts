@@ -7,7 +7,7 @@ import {
     RealtimeFirestoreCollection
 } from "../internal";
 
-export type RealtimeDocumentConstructor<T extends RealtimeFirestoreDocument<any>> = { new(...args: any): T };
+export type RealtimeDocumentConstructor<T extends RealtimeFirestoreDocument<any>> = {new (...args: any): T};
 
 /**
  * RealtimeFirestoreDocument class for Flashstore Library
@@ -44,19 +44,28 @@ export class RealtimeFirestoreDocument<D extends DocumentData> extends Firestore
     }
 
     startListening() {
-        if (this.isListening) throw Error("FirestoreDocument is listening, please stopListening() previous listening task before create a new once");
-        this.cancelListenerRegistration = this.ref.onSnapshot(snap => {
-            this._onSnap(snap);
-            this.emit(DocumentChangedEvents.VALUE_CHANGED, this);
-        }, async error => {
-            console.error(`Listening failed: ${error.message || String(error)}`);
-            this.stopListening();
-        });
+        if (this.isListening)
+            throw Error(
+                "FirestoreDocument is listening, please stopListening() previous listening task before create a new once"
+            );
+        this.cancelListenerRegistration = this.ref.onSnapshot(
+            (snap) => {
+                this._onSnap(snap);
+                this.emit(DocumentChangedEvents.VALUE_CHANGED, this);
+            },
+            async (error) => {
+                console.error(`Listening failed: ${error.message || String(error)}`);
+                this.stopListening();
+            }
+        );
     }
 
     stopListening() {
         if (this.cancelListenerRegistration === undefined) {
-            if (this.isListening) throw Error("FirestoreDocument can't stop listening itself because parentCollection is listening for it");
+            if (this.isListening)
+                throw Error(
+                    "FirestoreDocument can't stop listening itself because parentCollection is listening for it"
+                );
             console.error("FirestoreDocument is not listening");
             return;
         }
@@ -77,15 +86,12 @@ export class RealtimeFirestoreDocument<D extends DocumentData> extends Firestore
 }
 
 export class OnValueChangedListener<D extends DocumentData> {
-    onValueChanged(doc: RealtimeFirestoreDocument<D>): void {
-    }
+    onValueChanged(doc: RealtimeFirestoreDocument<D>): void {}
 
-    onDocumentRemoved(doc: RealtimeFirestoreDocument<D>): void {
-    }
-
+    onDocumentRemoved(doc: RealtimeFirestoreDocument<D>): void {}
 }
 
 export enum DocumentChangedEvents {
     VALUE_CHANGED = "onValueChanged",
-    DOCUMENT_REMOVED = "onDocumentRemoved",
+    DOCUMENT_REMOVED = "onDocumentRemoved"
 }

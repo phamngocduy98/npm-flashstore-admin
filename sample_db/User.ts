@@ -6,11 +6,7 @@ export class User extends DocumentData {
     @LinkFirestoreDocument(Collections.VILLAGES)
     village!: FirestoreDocument<Village> | null;
 
-    constructor(
-        public name: string,
-        public avatarUrl: string,
-        village?: FirestoreDocument<Village>
-    ) {
+    constructor(public name: string, public avatarUrl: string, village?: FirestoreDocument<Village>) {
         super();
         this.village = village || null;
     }

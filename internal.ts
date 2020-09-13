@@ -12,6 +12,3 @@ export * from "./core/RealtimeFirestoreDocument";
 export * from "./core/DocumentData";
 export * from "./core/FirestoreDocument";
 export * from "./core/FirestoreCollection";
-
-
-

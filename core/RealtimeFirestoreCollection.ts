@@ -18,12 +18,11 @@ import {
 export class RealtimeFirestoreCollection<D extends DocumentData> extends FirestoreCollection<D> {
     cancelCollectionListener?: () => void;
 
-
     constructor(
         root: Database,
         parent: ICollectionParent,
         collectionName: string,
-        dataConstructor: DocumentDataConstructor<D>,
+        dataConstructor: DocumentDataConstructor<D>
     ) {
         super(root, parent, collectionName, dataConstructor, true);
     }
@@ -44,28 +43,31 @@ export class RealtimeFirestoreCollection<D extends DocumentData> extends Firesto
     startListening(queryCreator: (ref: admin.firestore.CollectionReference) => admin.firestore.Query) {
         let query = queryCreator(this.ref);
         if (this.cancelCollectionListener !== undefined) this.cancelCollectionListener();
-        this.cancelCollectionListener = query.onSnapshot(querySnap => {
-            for (let docChange of querySnap.docChanges()) {
-                let queryDocSnap = docChange.doc;
-                let cachedDocument = this._documents.get(queryDocSnap.id);
-                if (docChange.type === "removed" && cachedDocument !== undefined) {
-                    this.emit(CollectionChangedEvents.DOCUMENT_REMOVED, cachedDocument);
-                    cachedDocument.emit(DocumentChangedEvents.DOCUMENT_REMOVED, cachedDocument);
-                    this._documents.delete(queryDocSnap.id);
-                } else {
-                    let doc = this.document(queryDocSnap.id);
-                    doc._onSnap(queryDocSnap);
-                    if (cachedDocument === undefined) {
-                        this.emit(CollectionChangedEvents.DOCUMENT_ADDED, doc);
+        this.cancelCollectionListener = query.onSnapshot(
+            (querySnap) => {
+                for (let docChange of querySnap.docChanges()) {
+                    let queryDocSnap = docChange.doc;
+                    let cachedDocument = this._documents.get(queryDocSnap.id);
+                    if (docChange.type === "removed" && cachedDocument !== undefined) {
+                        this.emit(CollectionChangedEvents.DOCUMENT_REMOVED, cachedDocument);
+                        cachedDocument.emit(DocumentChangedEvents.DOCUMENT_REMOVED, cachedDocument);
+                        this._documents.delete(queryDocSnap.id);
                     } else {
-                        this.emit(CollectionChangedEvents.DOCUMENT_CHANGED, doc);
-                        doc.emit(DocumentChangedEvents.VALUE_CHANGED, doc);
+                        let doc = this.document(queryDocSnap.id);
+                        doc._onSnap(queryDocSnap);
+                        if (cachedDocument === undefined) {
+                            this.emit(CollectionChangedEvents.DOCUMENT_ADDED, doc);
+                        } else {
+                            this.emit(CollectionChangedEvents.DOCUMENT_CHANGED, doc);
+                            doc.emit(DocumentChangedEvents.VALUE_CHANGED, doc);
+                        }
                     }
                 }
+            },
+            async (error) => {
+                this.stopListening();
             }
-        }, async error => {
-            this.stopListening();
-        });
+        );
     }
 
     stopListening() {
@@ -90,16 +92,13 @@ export class RealtimeFirestoreCollection<D extends DocumentData> extends Firesto
 export enum CollectionChangedEvents {
     DOCUMENT_ADDED = "onDocumentAdded",
     DOCUMENT_CHANGED = "onDocumentModified",
-    DOCUMENT_REMOVED = "onDocumentRemoved",
+    DOCUMENT_REMOVED = "onDocumentRemoved"
 }
 
 export class OnCollectionChangedListener<D extends DocumentData> {
-    onDocumentAdded(doc: RealtimeFirestoreDocument<D>) {
-    }
+    onDocumentAdded(doc: RealtimeFirestoreDocument<D>) {}
 
-    onDocumentModified(doc: RealtimeFirestoreDocument<D>) {
-    }
+    onDocumentModified(doc: RealtimeFirestoreDocument<D>) {}
 
-    onDocumentRemoved(doc: RealtimeFirestoreDocument<D>) {
-    }
+    onDocumentRemoved(doc: RealtimeFirestoreDocument<D>) {}
 }
