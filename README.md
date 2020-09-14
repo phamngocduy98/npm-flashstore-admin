@@ -2,6 +2,10 @@
 
 A firebase firestore library that making it easier to CRUD data with typescript
 
+```
+npm i @phamngocduy98/flashstore
+```
+
 ## How to use
 
 ### 1. Define document type class
