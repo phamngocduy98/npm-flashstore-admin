@@ -15,7 +15,7 @@
     "prettier": "prettier --write *.ts ./core/**/*.ts ./test/**/*.ts",
     "types-check": "tsc --project . --noEmit --pretty --skipLibCheck",
     "build": "tsc --build",
-    "publish": "npm publish --access public"
+    "npm_publish": "npm publish --access public"
   },
   "dependencies": {
     "firebase-admin": "^9.1.1"
