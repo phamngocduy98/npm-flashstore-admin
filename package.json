@@ -10,6 +10,10 @@
   "scripts": {
     "test": "mocha --exit --require ts-node/register ./test/**/*.ts",
     "coverage": "nyc mocha --exit --require ts-node/register ./test/**/*.ts",
+    "tslint": "tslint --project . -- *.ts core/**/*.ts ./test/**/*.ts",
+    "prettier-check": "prettier --check *.ts ./core/**/*.ts ./test/**/*.ts",
+    "prettier": "prettier --write *.ts ./core/**/*.ts ./test/**/*.ts",
+    "types-check": "tsc --project . --noEmit --pretty --skipLibCheck",
     "build": "tsc --build",
     "publish": "npm publish --access public"
   },
@@ -23,8 +27,10 @@
     "dotenv": "^8.2.0",
     "mocha": "^8.1.3",
     "nyc": "^15.1.0",
+    "prettier": "^2.1.1",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^9.0.0",
+    "tslint": "^6.1.3",
     "typescript": "^4.0.2"
   }
 }
