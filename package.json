@@ -1,12 +1,15 @@
 {
   "name": "@phamngocduy98/flashstore",
-  "version": "0.0.1b",
+  "version": "0.0.1c",
   "description": "A firebase cloud firestore library that making it easier to CRUD data with typescript",
   "repository": "https://github.com/phamngocduy98/node_flashstore_library",
   "author": "Pham Ngoc Duy",
   "license": "MIT",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "test": "mocha --exit --require ts-node/register ./test/**/*.ts",
     "coverage": "nyc mocha --exit --require ts-node/register ./test/**/*.ts",
