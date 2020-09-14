@@ -13,7 +13,7 @@ npm i @phamngocduy98/flashstore
 Define properties of your document by extending `DocumentData` class
 
 ```typescript
-import {DocumentData} from "./";
+import {DocumentData} from "@phamngocduy98/flashstore";
 
 export class User extends DocumentData {
     constructor(public name: string, public avatarUrl: string) {
@@ -27,7 +27,7 @@ export class User extends DocumentData {
 For example, you have a root collection whose name is `users`
 
 ```typescript
-import {Database, Collection, FirestoreCollection} from "./";
+import {Database, Collection, FirestoreCollection} from "@phamngocduy98/flashstore";
 import {User} from ".";
 
 export class MyDatabase extends Database {
@@ -42,7 +42,7 @@ If you don't define collection's name parameter like `@Collection(User)`, the li
 Subcollection is supported too. If you have a subcollection `wells` inside a `Village` document, then your Village class should look like this:
 
 ```typescript
-import {DocumentData, Collection, FirestoreCollection} from "./";
+import {DocumentData, Collection, FirestoreCollection} from "@phamngocduy98/flashstore";
 import {Well} from "./sample_db/Well";
 
 export class Village extends DocumentData {
@@ -55,7 +55,7 @@ export class Village extends DocumentData {
 
 ```typescript
 import * as admin from "firebase-admin";
-import {FirestoreDocument, FirestoreCollection} from "./";
+import {FirestoreDocument, FirestoreCollection} from "@phamngocduy98/flashstore";
 import {User, MyDatabase} from ".";
 
 admin.initializeApp();
@@ -98,7 +98,7 @@ For now, it's not recommended to define a link to a sub-collection due to its co
 The `owner` is stored as `DocumentReference` in firestore, while you can access it as a true document in Village instance.
 
 ```typescript
-import {FirestoreDocument, LinkFirestoreDocument, DocumentData} from "./";
+import {FirestoreDocument, LinkFirestoreDocument, DocumentData}  from "@phamngocduy98/flashstore";
 import {User} from ".";
 
 export class Village extends DocumentData {
@@ -119,7 +119,7 @@ export class Village extends DocumentData {
 If you only want to read the document:
 
 ```typescript
-import {FirestoreDocument} from "./";
+import {FirestoreDocument from "@phamngocduy98/flashstore";
 import {User, Village} from ".";
 
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
@@ -136,7 +136,7 @@ console.log(ownerData.name, ownerData.avatarUrl);
 It can be get via `linkedDocument(propertyName)` method.
 
 ```typescript
-import {FirestoreDocument, FirestoreDocumentTracker} from "./";
+import {FirestoreDocument, FirestoreDocumentTracker} from "@phamngocduy98/flashstore";
 import {User, Village} from ".";
 
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
@@ -165,7 +165,7 @@ The library supports array of document too. You can use `@LinkFirestoreDocumentA
 So, the completed Village class is shown bellow:
 
 ```typescript
-import {DocumentData, FirestoreDocument, LinkFirestoreDocument, LinkFirestoreDocumentArray} from "./";
+import {DocumentData, FirestoreDocument, LinkFirestoreDocument, LinkFirestoreDocumentArray} from "@phamngocduy98/flashstore";
 import {User} from ".";
 
 export class Village extends DocumentData {
@@ -189,7 +189,7 @@ export class Village extends DocumentData {
 If you only want to read the array:
 
 ```typescript
-import {FirestoreDocument, FirestoreDocumentArrayTracker} from "./";
+import {FirestoreDocument, FirestoreDocumentArrayTracker} from "@phamngocduy98/flashstore";
 import {User, Village} from ".";
 
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
@@ -209,7 +209,7 @@ console.log(member0Data.name, member0Data.avatarUrl);
 It can be get via `linkedArray(propertyName)` method.
 
 ```typescript
-import {FirestoreDocument, FirestoreDocumentArrayTracker} from "./";
+import {FirestoreDocument, FirestoreDocumentArrayTracker} from "@phamngocduy98/flashstore";
 import {User, Village} from ".";
 
 const userDoc: FirestoreDocument<User> = db.users.document("user_id");
@@ -233,7 +233,7 @@ let memberDataArray: User[] = villageMemberArrayTracker.getArrayData();
 `FirestoreDocumentArrayTracker` support listener too
 
 ```typescript
-import {OnArrayChangedListener, FirestoreDocumentArrayTracker, FirestoreDocument} from "./";
+import {OnArrayChangedListener, FirestoreDocumentArrayTracker, FirestoreDocument} from "@phamngocduy98/flashstore";
 import {User, Village} from ".";
 
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
@@ -259,7 +259,7 @@ Use `@RealtimeCollection` decorator instead of `@Collection` decorator to define
 You can add listeners to listen these changes too.
 
 ```typescript
-import {OnCollectionChangedListener, RealtimeFirestoreDocument} from "./";
+import {OnCollectionChangedListener, RealtimeFirestoreDocument} from "@phamngocduy98/flashstore";
 
 const listener = new OnCollectionChangedListener();
 listener.onDocumentAdded = (doc: RealtimeFirestoreDocument<D>) => {
@@ -279,7 +279,7 @@ db.anyRealtimeCollection.addOnCollectionChangedListener(listener);
 `RealtimeFirestoreDocument` is created be `RealtimeFirestoreCollection. Its data is always up to date with the server in realtime. It support listener too.`
 
 ```typescript
-import {OnValueChangedListener, RealtimeFirestoreDocument} from "./";
+import {OnValueChangedListener, RealtimeFirestoreDocument} from "@phamngocduy98/flashstore";
 
 const anyRealtimeDocument: RealtimeFirestoreDocument<D> = db.anyRealtimeCollection.document("document_id");
 
