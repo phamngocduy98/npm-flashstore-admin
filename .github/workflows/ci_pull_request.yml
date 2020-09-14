@@ -1,4 +1,4 @@
-name: CI
+name: Run tests for pull request
 on:
   pull_request
 jobs:
@@ -16,6 +16,63 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Running tests
         run: yarn test
+        env:
+          FIREBASE_PRIVATE_KEY: ${{secrets.FIREBASE_PRIVATE_KEY}}
+          FIREBASE_CLIENT_EMAIL: ${{secrets.FIREBASE_CLIENT_EMAIL}}
+          FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
+          FIREBASE_DATABASE_URL: ${{secrets.FIREBASE_DATABASE_URL}}
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.3
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+      - name: Running tests
+        run: yarn tslint
+        env:
+          FIREBASE_PRIVATE_KEY: ${{secrets.FIREBASE_PRIVATE_KEY}}
+          FIREBASE_CLIENT_EMAIL: ${{secrets.FIREBASE_CLIENT_EMAIL}}
+          FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
+          FIREBASE_DATABASE_URL: ${{secrets.FIREBASE_DATABASE_URL}}
+  prettier-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.3
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+      - name: Running tests
+        run: yarn prettier-check
+        env:
+          FIREBASE_PRIVATE_KEY: ${{secrets.FIREBASE_PRIVATE_KEY}}
+          FIREBASE_CLIENT_EMAIL: ${{secrets.FIREBASE_CLIENT_EMAIL}}
+          FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
+          FIREBASE_DATABASE_URL: ${{secrets.FIREBASE_DATABASE_URL}}
+  types-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.3
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+      - name: Running tests
+        run: yarn types-check
         env:
           FIREBASE_PRIVATE_KEY: ${{secrets.FIREBASE_PRIVATE_KEY}}
           FIREBASE_CLIENT_EMAIL: ${{secrets.FIREBASE_CLIENT_EMAIL}}

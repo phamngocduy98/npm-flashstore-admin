@@ -108,6 +108,10 @@ describe("Flash store library test", function () {
             })
             .then(() => {
                 return testVillage.get();
+            })
+            .catch((e) => {
+                console.error(e);
+                throw e;
             });
     });
 
@@ -134,6 +138,10 @@ describe("Flash store library test", function () {
             })
             .then(() => {
                 return testVillage.get();
+            })
+            .catch((e) => {
+                console.error(e);
+                throw e;
             });
     });
 

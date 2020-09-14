@@ -105,7 +105,7 @@ export class FirestoreCollection<D extends DocumentData> extends EventEmitter.Ev
 
         // Recurse on the next process tick, to avoid exploding the stack.
         process.nextTick(() => {
-            this.clearCollection(resolve);
+            return this.clearCollection(resolve);
         });
     }
 }
