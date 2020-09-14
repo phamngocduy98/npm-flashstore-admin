@@ -1,6 +1,10 @@
 import "mocha";
 import {expect} from "chai";
 import * as admin from "firebase-admin";
+import {config} from "dotenv";
+import {resolve} from "path";
+
+config({path: resolve(__dirname, "../.env")});
 
 import {
     DocumentReferenceArrays,
