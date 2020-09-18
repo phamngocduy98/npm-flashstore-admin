@@ -1,12 +1,12 @@
 {
   "name": "@phamngocduy98/flashstore",
-  "version": "0.0.1d",
+  "version": "0.0.1e",
   "description": "A firebase cloud firestore library that making it easier to CRUD data with typescript",
   "repository": "https://github.com/phamngocduy98/node_flashstore_library",
   "author": "Pham Ngoc Duy",
   "license": "MIT",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "files": [
     "build"
   ],
