@@ -20,7 +20,7 @@
     "prettier-check": "prettier --check *.ts ./core/**/*.ts ./test/**/*.ts",
     "prettier": "prettier --write *.ts ./core/**/*.ts ./test/**/*.ts",
     "types-check": "tsc --project . --noEmit --pretty --skipLibCheck",
-    "build": "tsc --build",
+    "build": "tsc -b prod.tsconfig.json",
     "npm_publish": "npm publish --access public"
   },
   "dependencies": {

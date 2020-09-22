@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "ES2017",
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "build",
+        "downlevelIteration": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "exclude": ["node_modules", "build", "sample_db", "test", "**/*.d.ts"]
+}
