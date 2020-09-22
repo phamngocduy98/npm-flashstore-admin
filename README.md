@@ -1,4 +1,10 @@
 # FlashStore
+![npm](https://img.shields.io/npm/v/@phamngocduy98/flashstore)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/phamngocduy98/node_flashstore_library/Coverage%20check)
+![npm](https://img.shields.io/npm/dt/@phamngocduy98/flashstore)
+![node-lts (scoped)](https://img.shields.io/node/v-lts/@phamngocduy98/flashstore)
+![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/@phamngocduy98/flashstore/dev/typescript)
+![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/phamngocduy98/node_flashstore_library/firebase-admin)
 
 A firebase firestore library that making it easier to CRUD data with typescript
 

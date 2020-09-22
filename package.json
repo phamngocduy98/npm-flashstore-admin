@@ -10,6 +10,9 @@
   "files": [
     "build"
   ],
+  "engines": {
+    "node": "^12"
+  },
   "scripts": {
     "test": "mocha --exit --require ts-node/register ./test/**/*.ts",
     "coverage": "nyc mocha --exit --require ts-node/register ./test/**/*.ts",
