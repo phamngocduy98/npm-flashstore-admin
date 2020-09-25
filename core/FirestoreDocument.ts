@@ -99,9 +99,10 @@ export class FirestoreDocument<D extends DocumentData> extends ICollectionParent
      * @return null if document not exists
      */
     async get(forceRefresh: boolean = true): Promise<D | null> {
-        if (!forceRefresh && this.isExists !== undefined) return this._dataValue;
+        if (!forceRefresh && this.isExists) return this._dataValue;
         this._onSnap(await this.ref.get());
-        return this._dataValue!;
+        if (this.isExists) return this._dataValue!;
+        return null;
     }
 
     set(documentData: D) {

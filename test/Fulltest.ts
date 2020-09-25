@@ -39,6 +39,12 @@ describe("Flash store library test", function () {
         expect(DocumentReferenceArrays.includes([ref1, ref3], ref2), "includes test").to.be.false;
     });
 
+    it("get not exists document", async () => {
+        let userDoc = await db.users.document("~~~~");
+        let userData = await userDoc.get();
+        expect(userData).to.be.null;
+    });
+
     it("create/get document", async () => {
         let newUserData = new User("test user", "");
         let userDoc = await db.users.create("user_test", newUserData);
