@@ -54,6 +54,22 @@ describe("Flash store library test", function () {
         expect(userData!.avatarUrl, "check document data : avatarUrl").to.equal(newUserData.avatarUrl);
     });
 
+    it("push to linked document array", async () => {
+        let newUserData = new User("Test User", "test avatar");
+        let userDoc = db.users.document("user_test");
+        await userDoc.set(newUserData);
+        let userData = await userDoc.get();
+        expect(userData).not.to.be.null;
+        expect(userData!.name, "name").to.equal(newUserData.name);
+        expect(userData!.avatarUrl, "avatarUrl").to.equal(newUserData.avatarUrl);
+        expect(userData!.villages, "villages").to.have.lengthOf(0);
+        const villageDoc = await db.villages.create(undefined, new Village("test_village", "desc", userDoc));
+        await userDoc.linkedArray("villages")!.add(villageDoc);
+        userData = await userDoc.get();
+        expect(userData!.villages).equal(userDoc.linkedArray("villages")!.getArray());
+        expect(userData!.villages, "villages").to.have.lengthOf(1);
+    });
+
     it("get collection documents", async () => {
         let usersData = await db.users.get();
         console.info(usersData);

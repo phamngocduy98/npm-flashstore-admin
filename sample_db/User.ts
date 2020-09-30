@@ -1,13 +1,13 @@
-import {DocumentData, FirestoreDocument, LinkFirestoreDocument} from "../internal";
+import {DocumentData, FirestoreDocument, LinkFirestoreDocumentArray} from "../internal";
 import {Collections} from "./CollectionNames";
 import {Village} from "./Village";
 
 export class User extends DocumentData {
-    @LinkFirestoreDocument(Collections.VILLAGES)
-    village!: FirestoreDocument<Village> | null;
+    @LinkFirestoreDocumentArray(Collections.VILLAGES)
+    villages: FirestoreDocument<Village>[];
 
-    constructor(public name: string, public avatarUrl: string, village?: FirestoreDocument<Village>) {
+    constructor(public name: string, public avatarUrl: string) {
         super();
-        this.village = village || null;
+        this.villages = [];
     }
 }

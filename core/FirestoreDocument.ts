@@ -106,7 +106,7 @@ export class FirestoreDocument<D extends DocumentData> extends ICollectionParent
     }
 
     set(documentData: D) {
-        this._dataValue = documentData;
+        // this._dataValue = documentData;
         return this.ref.set(documentData.toPureObject());
     }
 
