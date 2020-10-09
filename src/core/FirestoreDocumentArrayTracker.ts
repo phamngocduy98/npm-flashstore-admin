@@ -3,6 +3,7 @@ import EventEmitter from "events";
 import * as admin from "firebase-admin";
 
 import {DocumentData, FirestoreCollection, FirestoreDocument} from "../internal";
+import {FirestoreDocumentArray} from "./FirestoreDocumentArray";
 
 /**
  * FirestoreDocumentArrayTracker class for Flashstore Library
@@ -10,7 +11,7 @@ import {DocumentData, FirestoreCollection, FirestoreDocument} from "../internal"
  */
 export class FirestoreDocumentArrayTracker<D extends DocumentData> extends EventEmitter.EventEmitter {
     private _currentIdList?: string[];
-    private _documents: FirestoreDocument<D>[];
+    private _documents: FirestoreDocumentArray<FirestoreDocument<D>>;
 
     constructor(
         private collection: FirestoreCollection<D>,
@@ -18,7 +19,8 @@ export class FirestoreDocumentArrayTracker<D extends DocumentData> extends Event
         private arrayName: string
     ) {
         super();
-        this._documents = [];
+        this._documents = new FirestoreDocumentArray();
+        this._documents.attachTracker(this);
     }
 
     add(doc: FirestoreDocument<D>) {

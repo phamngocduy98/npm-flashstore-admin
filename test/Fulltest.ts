@@ -11,7 +11,7 @@ import {
     FirestoreCollection,
     FirestoreDocumentTracker,
     OnArrayChangedListener
-} from "../internal";
+} from "../src/internal";
 
 import {TestDatabase} from "../sample_db/TestDatabase";
 import {User} from "../sample_db/User";
@@ -64,10 +64,14 @@ describe("Flash store library test", function () {
         expect(userData!.avatarUrl, "avatarUrl").to.equal(newUserData.avatarUrl);
         expect(userData!.villages, "villages").to.have.lengthOf(0);
         const villageDoc = await db.villages.create(undefined, new Village("test_village", "desc", userDoc));
-        await userDoc.linkedArray("villages")!.add(villageDoc);
+        await userDoc.linkedArray("villages").add(villageDoc);
         userData = await userDoc.get();
+        const villageDoc2 = await db.villages.create(undefined, new Village("test_village2", "desc2", userDoc));
+        await userData!.villages.push(villageDoc2);
         expect(userData!.villages).equal(userDoc.linkedArray("villages")!.getArray());
-        expect(userData!.villages, "villages").to.have.lengthOf(1);
+        expect(userData!.villages).to.have.lengthOf(2);
+        expect(userData!.villages).includes(villageDoc);
+        expect(userData!.villages).includes(villageDoc2);
     });
 
     it("get collection documents", async () => {
@@ -87,14 +91,14 @@ describe("Flash store library test", function () {
         let userDoc = db.users.document("user_test");
         let villageDoc = await db.villages.create("test_village", new Village("test village", "alo", userDoc));
         // this test must be on top of any test that use village document
-        expect(() => villageDoc.linkedArray("members")!.getAt(0)).to.throw(
+        expect(() => villageDoc.linkedArray("members").getAt(0)).to.throw(
             "Please get() the parent document before use linked docRef array"
         );
         let villageData = await villageDoc.get();
-        expect(() => villageDoc.linkedArray("members")!.getAt(-1)).to.throw("Index out of bound");
+        expect(() => villageDoc.linkedArray("members").getAt(-1)).to.throw("Index out of bound");
         // access village.members[0]:
         let userAt0 = villageData!.members[0];
-        let firstUser = villageDoc.linkedArray("members")!.getAt(0);
+        let firstUser = villageDoc.linkedArray("members").getAt(0);
         expect(userAt0).to.equal(firstUser);
         let firstUserData = await firstUser.get();
         console.info(firstUserData);
@@ -117,16 +121,16 @@ describe("Flash store library test", function () {
             done();
         };
         testVillage
-            .linkedArray("members")!
+            .linkedArray("members")
             .remove(db.users.document(newlyAddedUserId))
             .then(() => {
                 return testVillage.get();
             })
             .then(() => {
-                testVillage.linkedArray("members")!.addOnArrayChangedListener(onUserArrayChangedListener);
+                testVillage.linkedArray("members").addOnArrayChangedListener(onUserArrayChangedListener);
             })
             .then(() => {
-                return testVillage.linkedArray("members")!.add(db.users.document(newlyAddedUserId));
+                return testVillage.linkedArray("members").add(db.users.document(newlyAddedUserId));
             })
             .then(() => {
                 return testVillage.get();
@@ -147,16 +151,16 @@ describe("Flash store library test", function () {
             done();
         };
         testVillage
-            .linkedArray("members")!
+            .linkedArray("members")
             .add(db.users.document(newlyAddedUserId))
             .then(() => {
                 return testVillage.get();
             })
             .then(() => {
-                testVillage.linkedArray("members")!.addOnArrayChangedListener(onUserArrayChangedListener);
+                testVillage.linkedArray("members").addOnArrayChangedListener(onUserArrayChangedListener);
             })
             .then(() => {
-                return testVillage.linkedArray("members")!.remove(db.users.document(newlyAddedUserId));
+                return testVillage.linkedArray("members").remove(db.users.document(newlyAddedUserId));
             })
             .then(() => {
                 return testVillage.get();
@@ -170,7 +174,7 @@ describe("Flash store library test", function () {
     it("Linked document", async () => {
         let userDoc = db.users.document("user_test");
         let testVillageDoc = await db.villages.create("test_village", new Village("test village", "alo", userDoc));
-        let ownerTracker: FirestoreDocumentTracker<User> = testVillageDoc.linkedDocument("owner")!;
+        let ownerTracker = testVillageDoc.linkedDocument("owner");
         let village = await testVillageDoc.get();
         expect(village!.owner).to.equal(ownerTracker.document());
         let owner = await village!.owner.get();

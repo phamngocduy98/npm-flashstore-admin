@@ -17,9 +17,9 @@
     "test": "mocha --exit --require ts-node/register ./test/**/*.ts",
     "coverage": "nyc --reporter=lcov --reporter=text-summary mocha --exit --require ts-node/register ./test/**/*.ts",
     "codecov": "codecov",
-    "tslint": "tslint --project . -- *.ts core/**/*.ts ./test/**/*.ts",
-    "prettier-check": "prettier --check *.ts ./core/**/*.ts ./test/**/*.ts",
-    "prettier": "prettier --write *.ts ./core/**/*.ts ./test/**/*.ts",
+    "tslint": "tslint --project . -- *.ts src/**/*.ts ./test/**/*.ts",
+    "prettier-check": "prettier --check src/**/*.ts ./test/**/*.ts",
+    "prettier": "prettier --write *.ts src/**/*.ts ./test/**/*.ts",
     "types-check": "tsc --project . --noEmit --pretty --skipLibCheck",
     "build": "tsc -b prod.tsconfig.json",
     "npm_publish": "npm publish --access public"

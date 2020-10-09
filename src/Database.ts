@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import {ICollectionParent} from "../internal";
+import {ICollectionParent} from "./internal";
 
 /**
  * Database class for Flashstore Library

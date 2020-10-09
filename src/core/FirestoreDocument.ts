@@ -11,6 +11,7 @@ import {
     ICollectionParent,
     RealtimeFirestoreCollection
 } from "../internal";
+import {FirestoreDocumentArray} from "./FirestoreDocumentArray";
 
 export type FirestoreDocumentConstructor<T extends FirestoreDocument<any>> = {new (...args: any): T};
 
@@ -85,12 +86,21 @@ export class FirestoreDocument<D extends DocumentData> extends ICollectionParent
         }
     }
 
-    linkedDocument(key: keyof D) {
-        return this.linkingDoc.get(key as string);
+    linkedDocument<K extends keyof D>(
+        key: D[K] extends FirestoreDocument<any> ? K : never
+    ): FirestoreDocumentTracker<D[K] extends FirestoreDocument<infer I> ? I : never> {
+        return this.linkingDoc.get(key as string)!;
     }
 
-    linkedArray(key: keyof D) {
-        return this.linkingDocArray.get(key as string);
+    linkedArray<K extends keyof D>(
+        key: D[K] extends FirestoreDocumentArray<any> ? K : never
+    ): D[K] extends FirestoreDocumentArray<infer I>
+        ? I extends FirestoreDocument<infer J>
+            ? FirestoreDocumentArrayTracker<J>
+            : never
+        : never {
+        // @ts-ignore
+        return this.linkingDocArray.get(key as string)!;
     }
 
     /**
