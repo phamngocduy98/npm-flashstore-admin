@@ -5,13 +5,13 @@ import {
     DocumentData,
     DocumentDataConstructor,
     FirestoreCollection,
-    FirestoreDocumentArrayTracker,
-    FirestoreDocumentTracker,
+    FDArrayTracker,
+    FDTracker,
     getRegisteredLinkingItems,
     ICollectionParent,
     RealtimeFirestoreCollection
 } from "../internal";
-import {FirestoreDocumentArray} from "./FirestoreDocumentArray";
+import {FDUnionArray} from "./FDUnionArray";
 
 export type FirestoreDocumentConstructor<T extends FirestoreDocument<any>> = {new (...args: any): T};
 
@@ -20,8 +20,8 @@ export type FirestoreDocumentConstructor<T extends FirestoreDocument<any>> = {ne
  * https://github.com/phamngocduy98/node_flashstore_library
  */
 export class FirestoreDocument<D extends DocumentData> extends ICollectionParent {
-    protected linkingDocArray: Map<string, FirestoreDocumentArrayTracker<any>>;
-    protected linkingDoc: Map<string, FirestoreDocumentTracker<any>>;
+    protected linkingDocArray: Map<string, FDArrayTracker<any>>;
+    protected linkingDoc: Map<string, FDTracker<any>>;
     public _dataValue: D;
     protected isExists?: boolean;
 
@@ -43,14 +43,14 @@ export class FirestoreDocument<D extends DocumentData> extends ICollectionParent
             const sourceCollection = this.root.getSubCollection(linkingItem.collectionPathFromRoot)!;
             if (linkingItem.mode === "docRef[]") {
                 // array Tracker is stored in parent FirebaseDocument
-                let arrayTracker = new FirestoreDocumentArrayTracker(sourceCollection, this, linkingItem.propertyKey);
+                let arrayTracker = new FDArrayTracker(sourceCollection, this, linkingItem.propertyKey);
                 this.linkingDocArray.set(linkingItem.propertyKey, arrayTracker);
                 (this as any)[linkingItem.propertyKey] = arrayTracker;
                 // value is stored as an array of FirebaseDocument at ref;
                 (this._dataValue as any)[linkingItem.propertyKey] = arrayTracker.getArray();
             } else if (linkingItem.mode === "docRef") {
                 // tracker is stored in parent FirebaseDocument
-                let docTracker = new FirestoreDocumentTracker(sourceCollection, this, linkingItem.propertyKey);
+                let docTracker = new FDTracker(sourceCollection, this, linkingItem.propertyKey);
                 this.linkingDoc.set(linkingItem.propertyKey, docTracker);
                 (this as any)[linkingItem.propertyKey] = docTracker;
                 // value is stored as an array of FirebaseDocument at ref;
@@ -88,17 +88,13 @@ export class FirestoreDocument<D extends DocumentData> extends ICollectionParent
 
     linkedDocument<K extends keyof D>(
         key: D[K] extends FirestoreDocument<any> ? K : never
-    ): FirestoreDocumentTracker<D[K] extends FirestoreDocument<infer I> ? I : never> {
+    ): FDTracker<D[K] extends FirestoreDocument<infer I> ? I : never> {
         return this.linkingDoc.get(key as string)!;
     }
 
     linkedArray<K extends keyof D>(
-        key: D[K] extends FirestoreDocumentArray<any> ? K : never
-    ): D[K] extends FirestoreDocumentArray<infer I>
-        ? I extends FirestoreDocument<infer J>
-            ? FirestoreDocumentArrayTracker<J>
-            : never
-        : never {
+        key: D[K] extends FDUnionArray<any> ? K : never
+    ): D[K] extends FDUnionArray<infer I> ? (I extends FirestoreDocument<infer J> ? FDArrayTracker<J> : never) : never {
         // @ts-ignore
         return this.linkingDocArray.get(key as string)!;
     }
@@ -120,8 +116,11 @@ export class FirestoreDocument<D extends DocumentData> extends ICollectionParent
         return this.ref.set(documentData.toPureObject());
     }
 
-    update(updateParams: {[K in keyof D]?: D[K] | admin.firestore.FieldValue}) {
+    update(updateParams: {[K in keyof D]?: D[K] | admin.firestore.FieldValue} | D) {
         this.isExists = undefined; // cached data is outed-date after updated, recall get() for new value
+        if (updateParams instanceof DocumentData) {
+            return this.ref.update(updateParams.toPureObject());
+        }
         return this.ref.update(updateParams);
     }
 

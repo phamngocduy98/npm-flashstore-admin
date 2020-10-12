@@ -6,7 +6,7 @@ import {DocumentData, FirestoreCollection, FirestoreDocument} from "../internal"
  * DocumentReferenceTracker class for Flashstore Library
  * https://github.com/phamngocduy98/node_flashstore_library
  */
-export class FirestoreDocumentTracker<D extends DocumentData> {
+export class FDTracker<D extends DocumentData> {
     private _document: FirestoreDocument<D> | null;
 
     constructor(

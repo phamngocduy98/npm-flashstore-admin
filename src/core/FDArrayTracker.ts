@@ -3,15 +3,15 @@ import EventEmitter from "events";
 import * as admin from "firebase-admin";
 
 import {DocumentData, FirestoreCollection, FirestoreDocument} from "../internal";
-import {FirestoreDocumentArray} from "./FirestoreDocumentArray";
+import {FDUnionArray} from "./FDUnionArray";
 
 /**
- * FirestoreDocumentArrayTracker class for Flashstore Library
+ * FDArrayTracker class for Flashstore Library
  * https://github.com/phamngocduy98/node_flashstore_library
  */
-export class FirestoreDocumentArrayTracker<D extends DocumentData> extends EventEmitter.EventEmitter {
+export class FDArrayTracker<D extends DocumentData> extends EventEmitter.EventEmitter {
     private _currentIdList?: string[];
-    private _documents: FirestoreDocumentArray<FirestoreDocument<D>>;
+    private _documents: FDUnionArray<FirestoreDocument<D>>;
 
     constructor(
         private collection: FirestoreCollection<D>,
@@ -19,23 +19,24 @@ export class FirestoreDocumentArrayTracker<D extends DocumentData> extends Event
         private arrayName: string
     ) {
         super();
-        this._documents = new FirestoreDocumentArray();
-        this._documents.attachTracker(this);
+        this._documents = new FDUnionArray();
+        this._documents._attachTracker(this);
     }
 
-    add(doc: FirestoreDocument<D>) {
-        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayUnion(doc.ref)});
+    add(...docs: FirestoreDocument<D>[]) {
+        const refs = docs.map((doc) => doc.ref);
+        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayUnion(...refs)});
     }
 
-    remove(doc: FirestoreDocument<D>) {
-        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayRemove(doc.ref)});
+    delete(...docs: FirestoreDocument<D>[]) {
+        const refs = docs.map((doc) => doc.ref);
+        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayRemove(...refs)});
     }
 
-    removeAt(index: number) {
+    async deleteAt(index: number) {
         if (index < 0 || index > this._documents.length) throw Error("Index out of bound");
-        if (this._currentIdList === undefined)
-            throw Error("Please get() the parent document before use linked docRef array");
-        return this.remove(this._documents[index]);
+        if (this._currentIdList === undefined) await this.parent.get();
+        return this.delete(this._documents[index]);
     }
 
     getAt(index: number): FirestoreDocument<D> {

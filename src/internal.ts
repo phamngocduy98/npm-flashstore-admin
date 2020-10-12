@@ -1,10 +1,10 @@
 export * from "./utils/DocumentReferenceArray";
-export * from "./Decorator";
+export * from "./schema/Decorator";
 
 export * from "./core/ICollectionParent";
 export * from "./Database";
-export * from "./core/FirestoreDocumentArrayTracker";
-export * from "./core/FirestoreDocumentTracker";
+export * from "./core/FDArrayTracker";
+export * from "./core/FDTracker";
 export * from "./core/FirestoreCollection";
 export * from "./core/FirestoreDocument";
 export * from "./realtime/RealtimeFirestoreCollection";

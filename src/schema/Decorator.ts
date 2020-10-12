@@ -4,7 +4,7 @@
 // *
 
 import "reflect-metadata";
-import {DocumentData, DocumentDataConstructor, ICollectionParent} from "./internal";
+import {DocumentData, DocumentDataConstructor, ICollectionParent} from "../internal";
 
 const CollectionRegistrationMetadataKey = Symbol("CollectionRegistrationMetadataKey");
 

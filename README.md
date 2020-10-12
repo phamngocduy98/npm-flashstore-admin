@@ -131,24 +131,24 @@ import {User, Village} from ".";
 
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
 const villageData: Village = await villageDoc.get();
-console.log(villageData.name, villageData.description);
+
 const ownerData: FirestoreDocument<User> = await village!.owner.get();
 console.log(ownerData.name, ownerData.avatarUrl);
 ```
 
-##### FirestoreDocumentTracker
+##### FDTracker
 
-`FirestoreDocumentTracker` help you get the linked document or change the link to another document.
-`FirestoreDocumentTracker` instance is created automatically in `FirestoreDocument`.
+`FDTracker` help you get the linked document or change the link to another document.
+`FDTracker` instance is created automatically in `FirestoreDocument`.
 It can be get via `linkedDocument(propertyName)` method.
 
 ```typescript
-import {FirestoreDocument, FirestoreDocumentTracker} from "@phamngocduy98/flashstore";
+import {FirestoreDocument, FDTracker} from "@phamngocduy98/flashstore";
 import {User, Village} from ".";
 
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
 const village: Village = await villageDoc.get(); // remember to get before interacting with any tracker
-const villageOwnerTracker: FirestoreDocumentTracker<User> = villageDoc.linkedDocument("owner")!;
+const villageOwnerTracker: FDTracker<User> = villageDoc.linkedDocument("owner")!;
 
 // GET linked document:
 const ownerDoc = villageOwnerTracker.document(); // equivalent to village!.owner
@@ -173,18 +173,19 @@ So, the completed Village class is shown bellow:
 
 ```typescript
 import {DocumentData, FirestoreDocument, LinkFirestoreDocument, LinkFirestoreDocumentArray} from "@phamngocduy98/flashstore";
+import {FDUnionArray} from "./FDUnionArray";
 import {User} from ".";
 
 export class Village extends DocumentData {
     @LinkFirestoreDocument("users")
     owner: FirestoreDocument<User>;
     @LinkFirestoreDocumentArray("users")
-    members: FirestoreDocument<User>[];
+    members: FDUnionArray<FirestoreDocument<User>>;
 
     constructor(public name: string, public description: string, owner: FirestoreDocument<User>) {
         super();
         this.owner = owner;
-        this.members = [owner];
+        this.members = new FDUnionArray(owner);
     }
 }
 ```
@@ -196,56 +197,45 @@ export class Village extends DocumentData {
 If you only want to read the array:
 
 ```typescript
-import {FirestoreDocument, FirestoreDocumentArrayTracker} from "@phamngocduy98/flashstore";
+import {FirestoreDocument, FDArrayTracker} from "@phamngocduy98/flashstore";
 import {User, Village} from ".";
 
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
-const villageData: Village = await villageDoc.get();
-console.log(villageData.name, villageData.description);
+const village: Village = await villageDoc.get();
 
 // read linked document array:
 const member0: FirestoreDocument<User> = await village!.members[0];
-const member0Data = await member0.get();
+const member0Data: Village = await member0.get();
 console.log(member0Data.name, member0Data.avatarUrl);
+// get all array:
+const villages: Village[] = await village!.members.getAll();
+// push
+const userDoc: FirestoreDocument<User> = db.users.document("user_id");
+await village!.members.pushDB(userDoc);
+// pop
+const popDoc = await village!.members.popDB();
+// splice
+await village!.members.spliceDB(0, 1);
 ```
 
-##### FirestoreDocumentArrayTracker
+##### FDArrayTracker
 
-`FirestoreDocumentArrayTracker` help you interact with the array easily.
-`FirestoreDocumentArrayTracker` instance is created automatically in `FirestoreDocument`.
+`FDArrayTracker` help you interact with the array easily.
+`FDArrayTracker` instance is created automatically in `FirestoreDocument`.
 It can be get via `linkedArray(propertyName)` method.
 
 ```typescript
-import {FirestoreDocument, FirestoreDocumentArrayTracker} from "@phamngocduy98/flashstore";
+import {FirestoreDocument, FDArrayTracker} from "@phamngocduy98/flashstore";
 import {User, Village} from ".";
 
-const userDoc: FirestoreDocument<User> = db.users.document("user_id");
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
 await villageDoc.get(); // remember to get before interacting with any tracker
-const villageMemberArrayTracker: FirestoreDocumentArrayTracker<User> = villageDoc.linkedArray("member")!;
+const villageMemberArrayTracker: FDArrayTracker<User> = villageDoc.linkedArray("member")!;
 
-// ADD:
+// CRUD DATA: add/getAt/delete/getArray/getArrayData/...
 await villageMemberArrayTracker.add(userDoc);
-// REMOVE:
-await villageMemberArrayTracker.remove(userDoc);
-await villageMemberArrayTracker.removeAt(0);
-// GET an item:
-let userDocAt0: FirestoreDocument<User> = villageMemberArrayTracker.getAt(0);
-let userDataAt0: User = await villageMemberArrayTracker.getDataAt(0); // equivalent to userDocAt0.get();
-// GET the whole array:
-let memberDocArray: FirestoreDocument<User>[] = villageMemberArrayTracker.getArray();
-let memberDataArray: User[] = villageMemberArrayTracker.getArrayData();
-```
 
-`FirestoreDocumentArrayTracker` support listener too
-
-```typescript
-import {OnArrayChangedListener, FirestoreDocumentArrayTracker, FirestoreDocument} from "@phamngocduy98/flashstore";
-import {User, Village} from ".";
-
-const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
-const villageMemberArrayTracker: FirestoreDocumentArrayTracker<User> = villageDoc.linkedArray("member");
-
+// add listener
 const listener = OnArrayChangedListener<User>();
 listener.onItemsInserted = (docs: FirestoreDocument<User>[]) => {
     console.log(docs);
