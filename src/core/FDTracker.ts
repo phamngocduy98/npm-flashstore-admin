@@ -43,8 +43,8 @@ export class FDTracker<D extends DocumentData> {
         return this._document;
     }
 
-    async get(forceRefresh: boolean = true): Promise<D | null> {
+    async get(fromCache: boolean = false): Promise<D | null> {
         if (this._document === null) return null;
-        return this._document.get(forceRefresh);
+        return this._document.get(fromCache);
     }
 }

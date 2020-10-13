@@ -66,6 +66,7 @@ export class FirestoreCollection<D extends DocumentData> extends EventEmitter.Ev
 
     async create(docId: string | undefined, doc: D) {
         let newDocRef = docId ? this.ref.doc(docId) : this.ref.doc();
+        doc._id = newDocRef.id;
         await newDocRef.set(doc.toPureObject());
         return this.document(newDocRef.id);
     }

@@ -3,8 +3,8 @@ import {
     DocumentData,
     FirestoreCollection,
     FirestoreDocument,
-    LinkFirestoreDocument,
-    LinkFirestoreDocumentArray
+    RefFDocument,
+    RefFDUnionArray
 } from "../src/internal";
 import {Collections} from "./CollectionNames";
 import {User} from "./User";
@@ -12,10 +12,10 @@ import {Well} from "./Well";
 import {FDUnionArray} from "../src/core/FDUnionArray";
 
 export class Village extends DocumentData {
-    @LinkFirestoreDocument(Collections.USERS)
+    @RefFDocument(Collections.USERS)
     owner: FirestoreDocument<User>;
 
-    @LinkFirestoreDocumentArray(Collections.USERS)
+    @RefFDUnionArray(Collections.USERS)
     members: FDUnionArray<FirestoreDocument<User>>;
 
     @Collection(Well, Collections.WELLS)

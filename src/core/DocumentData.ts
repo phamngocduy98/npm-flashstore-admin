@@ -8,7 +8,7 @@ export class DocumentData {
     public _id: string = "";
     toPureObject() {
         let pureObject: Partial<this> = Object.assign({}, this);
-        delete pureObject._id;
+        // delete pureObject._id;
         for (let key in pureObject) {
             const objectAtKey = pureObject[key];
             if (objectAtKey instanceof FirestoreDocument) {

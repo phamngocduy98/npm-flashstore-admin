@@ -12,6 +12,14 @@ export class FDUnionArray<T extends FirestoreDocument<any>> extends Array<T> {
     _attachTracker(tracker: FDArrayTracker<DocumentDataTypeOf<T>>) {
         this._tracker = tracker;
     }
+
+    /**
+     * @deprecated Please use pushDB instead.
+     * @WARNING: use push, pop, shift, splice will cause unexpected value in database while those method won't wait the operation to finish. Use pushDB, popDB, shiftDB, spliceDB as alternative
+     *
+     * Appends new elements to an array, and returns the new length of the array.
+     * @param items New elements of the Array.
+     */
     push(...items: T[]): number {
         items = items.filter((item) => !Array.prototype.includes.call(this, item));
         const tracker = this._tracker;
@@ -40,6 +48,13 @@ export class FDUnionArray<T extends FirestoreDocument<any>> extends Array<T> {
         await tracker.add(...items);
         return newLength;
     }
+
+    /**
+     * @deprecated Please use popDB instead
+     * @WARNING: use push, pop, shift, splice will cause unexpected value in database while those method won't wait the operation to finish. Use pushDB, popDB, shiftDB, spliceDB as alternative
+     *
+     * Removes the last element from an array and returns it.
+     */
     pop(): T | undefined {
         const popItem = super.pop();
         if (this._tracker == null)
@@ -63,6 +78,14 @@ export class FDUnionArray<T extends FirestoreDocument<any>> extends Array<T> {
         return popItem;
     }
 
+    /**
+     * @deprecated Please use spliceDB instead
+     * @WARNING: use push, pop, shift, splice will cause unexpected value in database while those method won't wait the operation to finish. Use pushDB, popDB, shiftDB, spliceDB as alternative
+     *
+     * Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
+     * @param start The zero-based location in the array from which to start removing elements.
+     * @param deleteCount The number of elements to remove.
+     */
     splice(start: number, deleteCount?: number): T[] {
         const tracker = this._tracker;
         if (tracker != null) {
@@ -92,6 +115,12 @@ export class FDUnionArray<T extends FirestoreDocument<any>> extends Array<T> {
         return super.splice(start, deleteCount);
     }
 
+    /**
+     * @deprecated Please use shiftDB instead
+     * @WARNING: use push, pop, shift, splice will cause unexpected value in database while those method won't wait the operation to finish. Use pushDB, popDB, shiftDB, spliceDB as alternative
+     *
+     * Removes the first element from an array and returns it.
+     */
     shift(): T | undefined {
         const shiftItem = super.shift();
         if (this._tracker == null)
@@ -115,31 +144,27 @@ export class FDUnionArray<T extends FirestoreDocument<any>> extends Array<T> {
         return shiftItem;
     }
 
-    /** @deprecated **/
+    /**
+     * @deprecated Array can't be sorted in database
+     */
     sort(compareFn?: (a: T, b: T) => number): this {
         // do nothing, this can't be sorted
         return this;
     }
 
-    /** @deprecated **/
+    /**
+     * @deprecated Unable to insert at the start of the array in database
+     */
     unshift(...items: T[]): number {
         throw Error("Firestore array can't unshift");
     }
 
     /**
-     * Delete items of an array
-     * @param items The elements to remove from the Array.
-     */
-    async delete(...items: T[]) {
-        return this._tracker?.delete(...items);
-    }
-
-    /**
      * Get the data values of the array
      */
-    async getAll(): Promise<DocumentDataTypeOf<T>[]> {
+    async getAll(): Promise<(DocumentDataTypeOf<T> | null)[]> {
         if (this._tracker) {
-            return (await this._tracker.getArrayData()).filter(arrayNullUndefinedFilter);
+            return await this._tracker.getArrayData();
         }
         return [];
     }

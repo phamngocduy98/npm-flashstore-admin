@@ -23,39 +23,66 @@ export class FDArrayTracker<D extends DocumentData> extends EventEmitter.EventEm
         this._documents._attachTracker(this);
     }
 
-    add(...docs: FirestoreDocument<D>[]) {
-        const refs = docs.map((doc) => doc.ref);
-        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayUnion(...refs)});
-    }
-
-    delete(...docs: FirestoreDocument<D>[]) {
-        const refs = docs.map((doc) => doc.ref);
-        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayRemove(...refs)});
-    }
-
-    async deleteAt(index: number) {
-        if (index < 0 || index > this._documents.length) throw Error("Index out of bound");
-        if (this._currentIdList === undefined) await this.parent.get();
-        return this.delete(this._documents[index]);
-    }
-
-    getAt(index: number): FirestoreDocument<D> {
-        if (index < 0 || index > this._documents.length) throw Error("Index out of bound");
-        if (this._currentIdList === undefined)
-            throw Error("Please get() the parent document before use linked docRef array");
-        return this._documents[index];
-    }
-
-    getDataAt(index: number, forceRefresh: boolean = true): Promise<D | null> {
-        return this.getAt(index).get(forceRefresh);
+    async refresh() {
+        await this.parent.get();
+        return this._documents;
     }
 
     getArray(): FirestoreDocument<D>[] {
         return this._documents;
     }
 
-    getArrayData(forceRefresh: boolean = true): Promise<Array<D | null>> {
-        return Promise.all(this._documents.map((doc) => doc.get(forceRefresh)));
+    async getArrayData(fromCache: boolean = false): Promise<Array<D | null>> {
+        if (this._documents.length === 0) return [];
+        const arrayCollection = this._documents[0].parentCollection;
+        const tasks: FirestoreDocument<D>[][] = [];
+        for (let i = 0; i <= this._documents.length / 10; i++) {
+            tasks.push(this._documents.slice(i * 10, Math.min(this._documents.length, i * 10 + 10)));
+        }
+        this._documents.forEach((doc) => doc.clearCache());
+        await Promise.all(
+            tasks.map(async (docs, taskIndex) => {
+                const ids = docs.map((doc) => doc.ref.id);
+                const snaps = await arrayCollection.ref.where("_id", "in", [...ids]).get();
+                snaps.docs.forEach((snap, docIndex) => {
+                    const pos = taskIndex * 10 + docIndex;
+                    if (snap.id === this._documents[pos].id) {
+                        this._documents[pos]._onSnap(snap);
+                    } else {
+                        const foundPos = this._documents.indexOf(arrayCollection.document(snap.id));
+                        console.warn(
+                            "Unexpected position: expect: " +
+                                pos +
+                                ", found at " +
+                                foundPos +
+                                ". Your array may contain items that not exists"
+                        );
+                        if (foundPos !== -1) {
+                            this._documents[foundPos]._onSnap(snap);
+                        }
+                    }
+                });
+            })
+        );
+        return this._documents.map((doc) => doc.getFromCache());
+    }
+
+    /**
+     * Add documents to the array in database only (not local, call .get() to sync the changes after you've done all modifications)
+     * @param docs documents to add to the array
+     */
+    add(...docs: FirestoreDocument<D>[]) {
+        const refs = docs.map((doc) => doc.ref);
+        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayUnion(...refs)});
+    }
+
+    /**
+     * Remove documents from the array in database only (not local, call .get() to sync the changes after you've done all modifications)
+     * @param docs documents to remove from the array
+     */
+    delete(...docs: FirestoreDocument<D>[]) {
+        const refs = docs.map((doc) => doc.ref);
+        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayRemove(...refs)});
     }
 
     _updateIdList(docIds: string[]): any {
@@ -66,8 +93,6 @@ export class FDArrayTracker<D extends DocumentData> extends EventEmitter.EventEm
         let lastIdList = this._currentIdList;
         this._currentIdList = docIds;
         if (lastIdList === undefined) {
-            // this.emit(Events.DATASET_CHANGED, this._documents);
-            // this.emit(Events.ITEM_INSERTED, this._documents);
             return;
         }
         let added = [],
@@ -95,10 +120,7 @@ export class FDArrayTracker<D extends DocumentData> extends EventEmitter.EventEm
 
 export enum Events {
     ITEM_INSERTED = "onItemInserted",
-    // ITEM_CHANGED = "onItemChanged",
     ITEM_REMOVED = "onItemRemoved"
-    // DATASET_CHANGED = "onDataSetChanged",
-    // LIST_SIZE_CHANGED = "onListSizeChanged",
 }
 
 export class OnArrayChangedListener<D extends DocumentData> {
