@@ -28,7 +28,7 @@ export class RealtimeFirestoreDocument<D extends DocumentData> extends Firestore
     }
 
     async get(): Promise<D | null> {
-        if (!this.isListening || this.isExists === undefined) return super.get();
+        if (!this.isListening || this._exists === undefined) return super.get();
         return this._dataValue;
     }
 

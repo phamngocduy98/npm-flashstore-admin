@@ -4,7 +4,7 @@
 // *
 
 import "reflect-metadata";
-import {DocumentData, DocumentDataConstructor, ICollectionParent} from "./internal";
+import {DocumentData, DocumentDataConstructor, ICollectionParent} from "../internal";
 
 const CollectionRegistrationMetadataKey = Symbol("CollectionRegistrationMetadataKey");
 
@@ -65,8 +65,8 @@ export function getRegisteredLinkingItems(target: any): ILinkingMetadata[] {
     return Reflect.getMetadata(LinkingMetadataKey, target) || [];
 }
 
-// @LinkFirestoreDocumentArray
-export function LinkFirestoreDocumentArray(collectionPathFromRoot: string) {
+// @FDArray
+export function RefFDUnionArray(collectionPathFromRoot: string) {
     return function (target: DocumentData, propertyKey: string): any {
         let prevLinkedMetadata = getRegisteredLinkingItems(target);
         let metaData: ILinkingMetadata = {
@@ -80,7 +80,7 @@ export function LinkFirestoreDocumentArray(collectionPathFromRoot: string) {
 }
 
 // @LinkFirestoreDocument
-export function LinkFirestoreDocument(collectionPathFromRoot: string) {
+export function RefFDocument(collectionPathFromRoot: string) {
     return function (target: DocumentData, propertyKey: string): any {
         let prevLinkedMetadata = getRegisteredLinkingItems(target);
         let metaData: ILinkingMetadata = {
