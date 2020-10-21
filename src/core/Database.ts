@@ -1,4 +1,4 @@
-import {firebase} from "./FirebaseImport";
+import {firebase} from "../FirebaseImport";
 import {ICollectionParent} from "./internal";
 
 /**

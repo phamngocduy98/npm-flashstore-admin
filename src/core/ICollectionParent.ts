@@ -5,7 +5,7 @@ import {
     FirestoreCollection,
     getRegisteredCollections,
     RealtimeFirestoreCollection
-} from "../internal";
+} from "./internal";
 
 import EventEmitter from "events";
 

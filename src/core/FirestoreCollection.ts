@@ -8,7 +8,7 @@ import {
     FirestoreDocument,
     ICollectionParent,
     RealtimeFirestoreDocument
-} from "../internal";
+} from "./internal";
 
 /**
  * FirestoreCollection class for Flashstore Library

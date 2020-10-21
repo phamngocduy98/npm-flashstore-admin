@@ -2,7 +2,7 @@
  * DocumentData class for Flashstore Library
  * https://github.com/phamngocduy98/npm-flashstore-core
  */
-import {firebase, FirestoreDocument, UpdateParams} from "../internal";
+import {firebase, FirestoreDocument, UpdateParams} from "./internal";
 
 export class DocumentData {
     public _id: string = "";

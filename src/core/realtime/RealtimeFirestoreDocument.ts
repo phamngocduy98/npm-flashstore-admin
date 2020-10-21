@@ -7,7 +7,7 @@ import {
     RealtimeFirestoreCollection
 } from "../internal";
 
-import {firebase} from "../FirebaseImport";
+import {firebase} from "../../FirebaseImport";
 
 export type RealtimeDocumentConstructor<T extends RealtimeFirestoreDocument<any>> = {new (...args: any): T};
 

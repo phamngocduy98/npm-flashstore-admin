@@ -1,6 +1,6 @@
 import {firebase} from "../FirebaseImport";
 
-import {DocumentData, FirestoreCollection, FirestoreDocument} from "../internal";
+import {DocumentData, FirestoreCollection, FirestoreDocument} from "./internal";
 
 /**
  * DocumentReferenceTracker class for Flashstore Library

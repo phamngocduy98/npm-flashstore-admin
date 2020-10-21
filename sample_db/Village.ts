@@ -5,7 +5,7 @@ import {
     FirestoreDocument,
     RefFDocument,
     RefFDUnionArray
-} from "../src/internal";
+} from "../src/core/internal";
 import {Collections} from "./CollectionNames";
 import {User} from "./User";
 import {Well} from "./Well";

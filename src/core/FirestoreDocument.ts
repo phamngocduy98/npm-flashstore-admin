@@ -10,7 +10,7 @@ import {
     getRegisteredLinkingItems,
     ICollectionParent,
     RealtimeFirestoreCollection
-} from "../internal";
+} from "./internal";
 import {FDUnionArray} from "./FDUnionArray";
 import DocumentReference = firebase.firestore.DocumentReference;
 

@@ -1,4 +1,4 @@
-import {DocumentData, FirestoreDocument, RefFDocument, RefFDUnionArray, FDUnionArray} from "../src/internal";
+import {DocumentData, FirestoreDocument, RefFDocument, RefFDUnionArray, FDUnionArray} from "../src/core/internal";
 import {Collections} from "./CollectionNames";
 import {Village} from "./Village";
 

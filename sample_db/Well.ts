@@ -1,4 +1,4 @@
-import {DocumentData} from "../src/internal";
+import {DocumentData} from "../src/core/internal";
 
 export class Well extends DocumentData {
     constructor(public name: string) {

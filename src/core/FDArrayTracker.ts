@@ -2,7 +2,7 @@ import EventEmitter from "events";
 
 import {firebase} from "../FirebaseImport";
 
-import {DocumentData, FirestoreCollection, FirestoreDocument} from "../internal";
+import {DocumentData, FirestoreCollection, FirestoreDocument} from "./internal";
 import {FDUnionArray} from "./FDUnionArray";
 
 /**
