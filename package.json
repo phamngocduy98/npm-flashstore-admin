@@ -1,6 +1,6 @@
 {
   "name": "@phamngocduy98/flashstore-admin",
-  "version": "0.0.1a",
+  "version": "0.0.1b",
   "description": "A firebase cloud firestore library that making it easier to CRUD data with typescript",
   "repository": "https://github.com/phamngocduy98/npm-flashstore-admin",
   "author": "Pham Ngoc Duy",
