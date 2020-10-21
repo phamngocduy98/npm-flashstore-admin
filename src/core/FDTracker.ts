@@ -1,10 +1,10 @@
-import * as admin from "firebase-admin";
+import {firebase} from "../FirebaseImport";
 
 import {DocumentData, FirestoreCollection, FirestoreDocument} from "../internal";
 
 /**
  * DocumentReferenceTracker class for Flashstore Library
- * https://github.com/phamngocduy98/node_flashstore_library
+ * https://github.com/phamngocduy98/npm-flashstore-core
  */
 export class FDTracker<D extends DocumentData> {
     private _document: FirestoreDocument<D> | null;
@@ -18,7 +18,7 @@ export class FDTracker<D extends DocumentData> {
     }
 
     // TODO: any type
-    _updateRef(ref: admin.firestore.DocumentReference | null): any {
+    _updateRef(ref: firebase.firestore.DocumentReference | null): any {
         if (ref === null) {
             return ((this.parent as any)[this.propertyName] = null);
         }

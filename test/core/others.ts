@@ -1,8 +1,6 @@
 import "mocha";
-import {expect} from "chai";
 
 import {FirestoreCollection} from "../../src/internal";
-import {User} from "../../sample_db/User";
 import {Village} from "../../sample_db/Village";
 import {Collections} from "../../sample_db/CollectionNames";
 import {Well} from "../../sample_db/Well";

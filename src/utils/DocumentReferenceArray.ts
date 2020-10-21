@@ -1,9 +1,9 @@
-import admin from "firebase-admin";
+import {firebase} from "../FirebaseImport";
 
-export class DocumentReferenceArrays extends Array<admin.firestore.DocumentReference> {
+export class DocumentReferenceArrays extends Array<firebase.firestore.DocumentReference> {
     static includes(
-        array: admin.firestore.DocumentReference[],
-        searchElement: admin.firestore.DocumentReference
+        array: firebase.firestore.DocumentReference[],
+        searchElement: firebase.firestore.DocumentReference
     ): boolean {
         return array.find((element) => element.isEqual(searchElement)) !== undefined;
     }
