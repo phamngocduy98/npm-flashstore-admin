@@ -4,12 +4,12 @@ import {
     FirestoreCollection,
     FirestoreDocument,
     RefFDocument,
-    RefFDUnionArray
-} from "../src/internal";
+    RefFDUnionArray,
+    FDUnionArray
+} from "../src/core/internal";
 import {Collections} from "./CollectionNames";
 import {User} from "./User";
 import {Well} from "./Well";
-import {FDUnionArray} from "../src/core/FDUnionArray";
 
 export class Village extends DocumentData {
     @RefFDocument(Collections.USERS)

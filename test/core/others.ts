@@ -1,6 +1,6 @@
 import "mocha";
 
-import {FirestoreCollection} from "../../src/internal";
+import {FirestoreCollection} from "../../src/core/internal";
 import {Village} from "../../sample_db/Village";
 import {Collections} from "../../sample_db/CollectionNames";
 import {Well} from "../../sample_db/Well";
