@@ -7,12 +7,14 @@ import {
     RealtimeFirestoreCollection
 } from "../internal";
 
+import {firebase} from "../FirebaseImport";
+
 export type RealtimeDocumentConstructor<T extends RealtimeFirestoreDocument<any>> = {new (...args: any): T};
 
 /**
  * RealtimeFirestoreDocument class for Flashstore Library
  * help make FirestoreDocument to listen realtime update from firestore
- * https://github.com/phamngocduy98/node_flashstore_library
+ * https://github.com/phamngocduy98/npm-flashstore-core
  */
 export class RealtimeFirestoreDocument<D extends DocumentData> extends FirestoreDocument<D> {
     cancelListenerRegistration?: () => any;
@@ -20,7 +22,7 @@ export class RealtimeFirestoreDocument<D extends DocumentData> extends Firestore
     constructor(
         root: Database,
         parentCollection: FirestoreCollection<D> | RealtimeFirestoreCollection<D>,
-        ref: FirebaseFirestore.DocumentReference,
+        ref: firebase.firestore.DocumentReference,
         dataConstructor: DocumentDataConstructor<D>,
         dataValue?: D
     ) {

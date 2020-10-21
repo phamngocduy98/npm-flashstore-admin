@@ -1,13 +1,13 @@
 /**
  * DocumentData class for Flashstore Library
- * https://github.com/phamngocduy98/node_flashstore_library
+ * https://github.com/phamngocduy98/npm-flashstore-core
  */
-import {FirestoreDocument} from "../internal";
+import {firebase, FirestoreDocument, UpdateParams} from "../internal";
 
 export class DocumentData {
     public _id: string = "";
-    toPureObject() {
-        let pureObject: Partial<this> = Object.assign({}, this);
+    static toFirestoreUpdatableObject<D extends DocumentData>(docData: UpdateParams<D>) {
+        let pureObject = Object.assign({}, docData);
         // delete pureObject._id;
         for (let key in pureObject) {
             const objectAtKey = pureObject[key];

@@ -1,4 +1,4 @@
-import * as admin from "firebase-admin";
+import {firebase} from "../FirebaseImport";
 
 import {
     Database,
@@ -6,14 +6,13 @@ import {
     DocumentData,
     DocumentDataConstructor,
     FirestoreCollection,
-    FirestoreDocument,
     ICollectionParent,
     RealtimeFirestoreDocument
 } from "../internal";
 
 /**
  * RealtimeFirestoreCollection class for Flashstore Library
- * https://github.com/phamngocduy98/node_flashstore_library
+ * https://github.com/phamngocduy98/npm-flashstore-core
  */
 export class RealtimeFirestoreCollection<D extends DocumentData> extends FirestoreCollection<D> {
     cancelCollectionListener?: () => void;
@@ -31,16 +30,11 @@ export class RealtimeFirestoreCollection<D extends DocumentData> extends Firesto
         return super.document(docId) as RealtimeFirestoreDocument<D>;
     }
 
-    async documents(): Promise<FirestoreDocument<D>[]> {
-        if (this._documents.size === 0) return super.documents();
-        return [...this._documents.values()];
-    }
-
     get isListening() {
         return this.cancelCollectionListener !== undefined;
     }
 
-    startListening(queryCreator: (ref: admin.firestore.CollectionReference) => admin.firestore.Query) {
+    startListening(queryCreator: (ref: firebase.firestore.CollectionReference) => firebase.firestore.Query) {
         let query = queryCreator(this.ref);
         if (this.cancelCollectionListener !== undefined) this.cancelCollectionListener();
         this.cancelCollectionListener = query.onSnapshot(

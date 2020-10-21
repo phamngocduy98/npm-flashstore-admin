@@ -1,12 +1,12 @@
-import * as admin from "firebase-admin";
+import {firebase} from "./FirebaseImport";
 import {ICollectionParent} from "./internal";
 
 /**
  * Database class for Flashstore Library
- * https://github.com/phamngocduy98/node_flashstore_library
+ * https://github.com/phamngocduy98/npm-flashstore-core
  */
 export class Database extends ICollectionParent {
-    constructor(private db: admin.firestore.Firestore) {
+    constructor(private db: firebase.firestore.Firestore) {
         super(db);
     }
 

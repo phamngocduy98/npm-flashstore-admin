@@ -1,4 +1,4 @@
-import * as admin from "firebase-admin";
+import {firebase} from "../FirebaseImport";
 import EventEmitter from "events";
 
 import {
@@ -12,10 +12,10 @@ import {
 
 /**
  * FirestoreCollection class for Flashstore Library
- * https://github.com/phamngocduy98/node_flashstore_library
+ * https://github.com/phamngocduy98/npm-flashstore-core
  */
 export class FirestoreCollection<D extends DocumentData> extends EventEmitter.EventEmitter {
-    ref: admin.firestore.CollectionReference;
+    ref: firebase.firestore.CollectionReference;
     protected _documents: Map<string, FirestoreDocument<D>>;
 
     constructor(
@@ -43,16 +43,11 @@ export class FirestoreCollection<D extends DocumentData> extends EventEmitter.Ev
         }
     }
 
-    async documents(): Promise<FirestoreDocument<D>[]> {
-        let docRefs = await this.ref.listDocuments();
-        return docRefs.map((ref) => this.document(ref.id));
-    }
-
     async get() {
         return this.query((ref) => ref);
     }
 
-    async query(queryMaker: (ref: admin.firestore.CollectionReference) => admin.firestore.Query): Promise<D[]> {
+    async query(queryMaker: (ref: firebase.firestore.CollectionReference) => firebase.firestore.Query): Promise<D[]> {
         let query = queryMaker(this.ref);
         let querySnap = await query.get();
         let docsData = [];
@@ -67,13 +62,13 @@ export class FirestoreCollection<D extends DocumentData> extends EventEmitter.Ev
     async create(docId: string | undefined, doc: D) {
         let newDocRef = docId ? this.ref.doc(docId) : this.ref.doc();
         doc._id = newDocRef.id;
-        await newDocRef.set(doc.toPureObject());
+        await newDocRef.set(DocumentData.toFirestoreUpdatableObject(doc));
         return this.document(newDocRef.id);
     }
 
-    createInBatch(batch: admin.firestore.WriteBatch, docId: string | undefined, doc: D) {
+    createInBatch(batch: firebase.firestore.WriteBatch, docId: string | undefined, doc: D) {
         let newDocRef = docId ? this.ref.doc(docId) : this.ref.doc();
-        batch.set(newDocRef, doc.toPureObject());
+        batch.set(newDocRef, DocumentData.toFirestoreUpdatableObject(doc));
         return newDocRef;
     }
 
@@ -82,7 +77,7 @@ export class FirestoreCollection<D extends DocumentData> extends EventEmitter.Ev
         return doc ? doc.delete() : this.ref.doc(docId).delete();
     }
 
-    async batchDelete(docRefs: admin.firestore.DocumentReference[]) {
+    async batchDelete(docRefs: firebase.firestore.DocumentReference[]) {
         const batch = this.ref.firestore.batch();
         docRefs.forEach((docRef) => {
             batch.delete(docRef);

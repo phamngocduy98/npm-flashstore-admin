@@ -1,6 +1,5 @@
 import {FirestoreDocument} from "./FirestoreDocument";
 import {FDArrayTracker} from "./FDArrayTracker";
-import {arrayNullUndefinedFilter} from "../utils/miscellaneous";
 
 type DocumentDataTypeOf<T extends FirestoreDocument<any>> = T extends FirestoreDocument<infer D> ? D : never;
 

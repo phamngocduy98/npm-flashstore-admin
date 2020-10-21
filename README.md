@@ -1,4 +1,6 @@
-# FlashStore
+# Flashstore admin
+**WARNING: Flashstore is currently in early beta version which is under development, may cause unexpected behaviors and should only be used in personal project.**  
+  
 ![npm](https://img.shields.io/npm/v/@phamngocduy98/flashstore)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/phamngocduy98/node_flashstore_library/Coverage%20check)
 [![codecov](https://codecov.io/gh/phamngocduy98/node_flashstore_library/branch/master/graph/badge.svg)](https://codecov.io/gh/phamngocduy98/node_flashstore_library)
@@ -10,17 +12,17 @@
 A firebase firestore library that making it easier to CRUD data with typescript
 
 ```
-npm i @phamngocduy98/flashstore
+npm i @phamngocduy98/flashstore-admin
 ```
 
 ## How to use
 
-### 1. Define document type class
+### 1. Define document data type
 
 Define properties of your document by extending `DocumentData` class
 
 ```typescript
-import {DocumentData} from "@phamngocduy98/flashstore";
+import {DocumentData} from "@phamngocduy98/flashstore-admin";
 
 export class User extends DocumentData {
     constructor(public name: string, public avatarUrl: string) {
@@ -31,10 +33,12 @@ export class User extends DocumentData {
 
 ### 2. Define collections:
 
+Define your database by extending `Database` class. There you can define your collections using `@Collection` decorator:  
+`@Collection(DocDataType: D extends DocumentData, collectionName?: string)`  
 For example, you have a root collection whose name is `users`
 
 ```typescript
-import {Database, Collection, FirestoreCollection} from "@phamngocduy98/flashstore";
+import {Database, Collection, FirestoreCollection} from "@phamngocduy98/flashstore-admin";
 import {User} from ".";
 
 export class MyDatabase extends Database {
@@ -42,14 +46,11 @@ export class MyDatabase extends Database {
     public users!: FirestoreCollection<User>;
 }
 ```
-
-`@Collection` decorator tells the library what is the type of collection's documents and its name.
-If you don't define collection's name parameter like `@Collection(User)`, the library will use property's name by default.
-
-Subcollection is supported too. If you have a subcollection `wells` inside a `Village` document, then your Village class should look like this:
+If you don't define collection's name parameter like `@Collection(User)`, the library will use property's name by default.  
+You can define sub-collection of a document too. If you have a subcollection `wells` inside a `Village` document, then your Village class should look like this:
 
 ```typescript
-import {DocumentData, Collection, FirestoreCollection} from "@phamngocduy98/flashstore";
+import {DocumentData, Collection, FirestoreCollection} from "@phamngocduy98/flashstore-admin";
 import {Well} from "./sample_db/Well";
 
 export class Village extends DocumentData {
@@ -60,56 +61,93 @@ export class Village extends DocumentData {
 
 ### 3. CRUD:
 
+Your need initialize your firebase app before using firestore:
 ```typescript
 import * as admin from "firebase-admin";
-import {FirestoreDocument, FirestoreCollection} from "@phamngocduy98/flashstore";
+import {FirestoreDocument, FirestoreCollection} from "@phamngocduy98/flashstore-admin";
 import {User, MyDatabase} from ".";
 
 admin.initializeApp();
 const db = new MyDatabase(admin.firestore());
-const userCollection: FirestoreCollection<User> = db.users;
-const userDoc: FirestoreDocument<User> = userCollection.document("my_user_id");
-// READ: (return null if document not exists)
-const userData: User = await userDoc.get();
-console.log(userData.name, userData.avatarUrl);
-// UPDATE:
-await userDoc.update({avatarUrl: "new avatar"});
-// DELETE:
-await userDoc.delete();
-// SET: (overwrite current value or create)
-userDoc.set({name: "new name", avatarUrl: "new avatar"});
-// CREATE:
-const newDocWithAutoCreatedId: FirestoreDocument<User> = await userCollection.create(undefined, new User());
-const newDocWithSpecificId: FirestoreDocument<User> = await userCollection.create("new_user_id", new User());
-// SUB COLLECTION:
-const villageDoc = await db.villages.document("test_village");
-const wellSubCollection: FirestoreCollection<Well> = villageDoc.collection("wells");
-await wellSubCollection.create(undefined, new Well("well 1"));
 ```
 
+#### 3.1 CRUD a collection:
+##### QUERY:
+```typescript
+const userCollection: FirestoreCollection<User> = db.users;
+const users: User[] = await db.users.query((ref) => ref.where("name", "==", "Duy"));
+````
+##### CREATE:
+```typescript
+// return FirebaseDocument instance of newly create document
+const newDocWithAutoCreatedId: FirestoreDocument<User> = await db.users.create(undefined, new User());
+const newDocWithSpecificId: FirestoreDocument<User> = await db.users.create("new_user_id", new User());
+
+// create in batch:
+const batch = db.batch();
+db.users.createInBatch(batch, "new_user_id", new User());
+```
+##### DELETE:
+```typescript
+await db.users.delete("new_user_id");
+// delete in batch:
+const batch = db.batch();
+db.users.deleteInBatch(batch, "new_user_id");
+```
+
+#### 3.2 CRUD a document:
+You need FirestoreDocument instance to read data or make changes to the document.
+Get a document instance by ID: `Collection.document(docId)`
+```typescript
+const userCollection: FirestoreCollection<User> = db.users;
+const userDoc: FirestoreDocument<User> = db.users.document("my_user_id");
+```
+
+Then you can read or modify to document as you want:
+##### READ: 
+```typescript
+// (return null if document not exists)
+const userData: User = await userDoc.get();
+console.log(userData?.name, userData?.avatarUrl);
+```
+##### UPDATE:
+```typescript
+await userDoc.update({avatarUrl: "new avatar"});
+```
+##### DETELE:
+```typescript
+await userDoc.delete();
+```
+##### SET:
+```typescript
+// (set will overwrite current value or create a new document if the document not exist)
+userDoc.set({name: "new name", avatarUrl: "new avatar"});
+```
+##### Access sub-collection:
+```typescript
+const villageDoc = await db.villages.document("test_village");
+const wellSubCollection: FirestoreCollection<Well> = villageDoc.collection("wells");
+// Then you can use all methods that is available for collection
+await wellSubCollection.create(undefined, new Well("well 1"));
+```
 ---
 
-### 4. Define a more complex database structure:
+### 4. Using references.
 
-#### 4.1 Define a link to other Document
+#### 4.1 Define a document property reference to other Document
+For example, you have a Village entity then your village have an owner which is a user. You need create an `owner` property with `@RefFDocument(collectionName: string)` decorator.  
+```
+@RefFDocument("users")
+owner: FirestoreDocument<User>;
+```
+Then the `owner` property will be stored as `DocumentReference` in firestore, while you can access it as a true FirestoreDocument in Village instance.  
+Make sure your collection name (eg. "users") should be root collection (not a sub-collection).
 
-For example, you have a village entity which is created by a user.
-To store the owner of the village, you may want an `owner` property to have type `User` instead of either `userId` string.
 
-To solve this problem, you create an `owner` property to have type `FirestoreDocument<User>`.
-Then add `@LinkFirestoreDocument` decorator which give collection path as the only parameter.
-
-If the collection is on top (the root) of the database, just place its name as collection path.  
-For now, it's not recommended to define a link to a sub-collection due to its complexification. If you really want to link to a subcollection, use the following syntax: `rootcollection/documentId/subcollection1`, for example: `posts/81snEQEFxByrZ7TjJJPJ/comments`. But remember that `documentId` in the path is static which make it useless.
-
-The `owner` is stored as `DocumentReference` in firestore, while you can access it as a true document in Village instance.
 
 ```typescript
-import {FirestoreDocument, LinkFirestoreDocument, DocumentData}  from "@phamngocduy98/flashstore";
-import {User} from ".";
-
 export class Village extends DocumentData {
-    @LinkFirestoreDocument("users")
+    @RefFDocument("users")
     owner: FirestoreDocument<User>;
 
     constructor(public name: string, public description: string, owner: FirestoreDocument<User>) {
@@ -119,67 +157,49 @@ export class Village extends DocumentData {
 }
 ```
 
----
-
-#### 4.2 CRUD linked document:
-
-If you only want to read the document:
-
+##### Read data of referenced document:
+Read Village.owner document data:
 ```typescript
-import {FirestoreDocument from "@phamngocduy98/flashstore";
-import {User, Village} from ".";
-
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
 const villageData: Village = await villageDoc.get();
 
-const ownerData: FirestoreDocument<User> = await village!.owner.get();
-console.log(ownerData.name, ownerData.avatarUrl);
+const ownerDoc: FirestoreDocument<User> = village!.owner;
+const ownerData: User = await village!.owner.get();
+console.log(ownerData?.name, ownerData?.avatarUrl);
 ```
-
-##### FDTracker
-
-`FDTracker` help you get the linked document or change the link to another document.
-`FDTracker` instance is created automatically in `FirestoreDocument`.
-It can be get via `linkedDocument(propertyName)` method.
-
+##### Modify the referenced property
+###### Change it to another document.
 ```typescript
-import {FirestoreDocument, FDTracker} from "@phamngocduy98/flashstore";
-import {User, Village} from ".";
-
-const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
-const village: Village = await villageDoc.get(); // remember to get before interacting with any tracker
-const villageOwnerTracker: FDTracker<User> = villageDoc.linkedDocument("owner")!;
-
-// GET linked document:
-const ownerDoc = villageOwnerTracker.document(); // equivalent to village!.owner
-const owner = await villageOwnerTracker.get(); // or ownerDoc.get() or village!.owner.get()
-
-// link to another Document (set owner to new document DocumentReference)
 const userDoc: FirestoreDocument<User> = db.users.document("user_id");
-villageOwnerTracker.link(userDoc); // or villageOwnerTracker.set(userDoc)
-
-// unlink: (will set owner to null value)
-villageOwnerTracker.unlink(); // or villageOwnerTracker.set(null)
+villageDoc.update({owner: userDoc});
 ```
-
+###### Set it to null
+Make sure you define it nullable in Village DocumentData like this `owner: FirestoreDocument<User> | null;`before set it to null:
+```typescript
+export class Village extends DocumentData {
+    @RefFDocument("users")
+    owner: FirestoreDocument<User> | null;
+}
+```
+```typescript
+villageDoc.update({owner: null});
+```
 ---
+#### 4.2 Define a document property reference to array of other Documents
 
-#### 4.3 Define a link to an array of other Document
-
-A village cannot only have owner :) It needs members which is an array of `User`.
-The library supports array of document too. You can use `@LinkFirestoreDocumentArray` decorator the same as `@LinkFirestoreDocument`. The only difference is `members` is an array of `FirestoreDocument<User>` and is stored as an array of `DocumentReference` in firestore.
-
-So, the completed Village class is shown bellow:
+Continue our story: a village entity cannot only have owner :) It needs members which is an array of `User`.
+You can use `@RefFDUnionArray` decorator the same as `@RefFDocument`. The only difference is `members` is an array of `FirestoreDocument<User>` and is stored as an array of `DocumentReference` in firestore.
+```
+@RefFDUnionArray("users")
+members: FDUnionArray<FirestoreDocument<User>>;
+```
+So, the completed Village class is:
 
 ```typescript
-import {DocumentData, FirestoreDocument, LinkFirestoreDocument, LinkFirestoreDocumentArray} from "@phamngocduy98/flashstore";
-import {FDUnionArray} from "./FDUnionArray";
-import {User} from ".";
-
 export class Village extends DocumentData {
-    @LinkFirestoreDocument("users")
+    @RefFDocument("users")
     owner: FirestoreDocument<User>;
-    @LinkFirestoreDocumentArray("users")
+    @RefFDUnionArray("users")
     members: FDUnionArray<FirestoreDocument<User>>;
 
     constructor(public name: string, public description: string, owner: FirestoreDocument<User>) {
@@ -190,64 +210,50 @@ export class Village extends DocumentData {
 }
 ```
 
----
-
-#### 4.4 CRUD linked document array:
-
-If you only want to read the array:
+##### CRUD referenced document array:
 
 ```typescript
-import {FirestoreDocument, FDArrayTracker} from "@phamngocduy98/flashstore";
-import {User, Village} from ".";
-
 const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
-const village: Village = await villageDoc.get();
-
-// read linked document array:
+const village: Village = await villageDoc.get(); // you must get() parent document before reading referenced document array
+const members: FDUnionArray<FirestoreDocument<User>> = village!.members;
+```
+###### Get a document from array:
+```typescript
+const village: Village = await villageDoc.get(); // you must get() parent document before reading referenced document array
 const member0: FirestoreDocument<User> = await village!.members[0];
 const member0Data: Village = await member0.get();
 console.log(member0Data.name, member0Data.avatarUrl);
-// get all array:
-const villages: Village[] = await village!.members.getAll();
-// push
-const userDoc: FirestoreDocument<User> = db.users.document("user_id");
-await village!.members.pushDB(userDoc);
-// pop
-const popDoc = await village!.members.popDB();
-// splice
-await village!.members.spliceDB(0, 1);
 ```
-
-##### FDArrayTracker
-
-`FDArrayTracker` help you interact with the array easily.
-`FDArrayTracker` instance is created automatically in `FirestoreDocument`.
-It can be get via `linkedArray(propertyName)` method.
-
+###### Get all array
 ```typescript
-import {FirestoreDocument, FDArrayTracker} from "@phamngocduy98/flashstore";
-import {User, Village} from ".";
-
-const villageDoc: FirestoreDocument<Village> = db.villages.document("village_id");
-await villageDoc.get(); // remember to get before interacting with any tracker
-const villageMemberArrayTracker: FDArrayTracker<User> = villageDoc.linkedArray("member")!;
-
-// CRUD DATA: add/getAt/delete/getArray/getArrayData/...
-await villageMemberArrayTracker.add(userDoc);
-
-// add listener
-const listener = OnArrayChangedListener<User>();
-listener.onItemsInserted = (docs: FirestoreDocument<User>[]) => {
-    console.log(docs);
-};
-listener.onItemsRemoved = (docs: FirestoreDocument<User>[]) => {
-    console.log(docs);
-};
-villageMemberArrayTracker.addOnArrayChangedListener(listener);
+const village: Village = await villageDoc.get(); // you must get() parent document before reading referenced document array
+const villages: Village[] = await village.members.getAll();
 ```
+###### push a element
+```typescript
+const userDoc: FirestoreDocument<User> = db.users.document("user_id");
+await village.members.pushDB(userDoc);
+```
+###### pop the array
+```typescript
+const popDoc = await village.members.popDB();
+```
+###### Splice the array
+```typescript
+await village.members.spliceDB(0, 1);
+```
+###### Update the whole array
+```typescript
+const village1Doc: FirestoreDocument<Village> = db.villages.document("village_1_id");
+const village2Doc: FirestoreDocument<Village> = db.villages.document("village_2_id");
+await village.update({members: [village1Doc, village2Doc]});
+```
+
+You may want to explore (or not) `FDArrayTracker` that can be get via `FirestoreDocument.linkedArray(propertyName)`.
 
 ### 5. Realtime support
 
+**WARNING: This is experiment feature.**  
 While realtime features of firestore costs your firestore read/write quota a lot, it's recommend to avoid using it. Realtime Database is a good choice too.
 
 #### 5.1 Realtime Collection
@@ -256,7 +262,7 @@ Use `@RealtimeCollection` decorator instead of `@Collection` decorator to define
 You can add listeners to listen these changes too.
 
 ```typescript
-import {OnCollectionChangedListener, RealtimeFirestoreDocument} from "@phamngocduy98/flashstore";
+import {OnCollectionChangedListener, RealtimeFirestoreDocument} from "@phamngocduy98/flashstore-admin";
 
 const listener = new OnCollectionChangedListener();
 listener.onDocumentAdded = (doc: RealtimeFirestoreDocument<D>) => {
@@ -273,10 +279,10 @@ db.anyRealtimeCollection.addOnCollectionChangedListener(listener);
 
 #### 5.2 Realtime Document
 
-`RealtimeFirestoreDocument` is created be `RealtimeFirestoreCollection. Its data is always up to date with the server in realtime. It support listener too.`
+`RealtimeFirestoreDocument` is created be `RealtimeFirestoreCollection`. Its data is always up to date with the server in realtime. It support listener too.`
 
 ```typescript
-import {OnValueChangedListener, RealtimeFirestoreDocument} from "@phamngocduy98/flashstore";
+import {OnValueChangedListener, RealtimeFirestoreDocument} from "@phamngocduy98/flashstore-admin";
 
 const anyRealtimeDocument: RealtimeFirestoreDocument<D> = db.anyRealtimeCollection.document("document_id");
 
@@ -290,13 +296,24 @@ listener.onDocumentRemoved = (doc: RealtimeFirestoreDocument<D>) => {
 anyRealtimeDocument.addOnValueChangedListener(listener);
 ```
 
+##### Realtime Document with Referenced Document Array:
+###### Listen for changes
+You can attach listener to listen when a item is being added to or removed from array
+```typescript
+const listener = OnArrayChangedListener<User>();
+listener.onItemsInserted = (docs: FirestoreDocument<User>[]) => {
+    console.log(docs);
+};
+listener.onItemsRemoved = (docs: FirestoreDocument<User>[]) => {
+    console.log(docs);
+};
+villageDoc.linkedArray("member").addOnArrayChangedListener(listener);
+```
+
 ### 6. Batch support
 
-You may find some special methods like `createInBatch`, `updateInBatch`, ... beside common `create` and `update` methods.
-
 ```typescript
-let batch = db.batch();
-batch = userDoc.root.batch();
+let batch = db.batch(); // or batch = anyDocument.root.batch();
 userDoc.updateInBatch(batch, {name: "new name"});
 userDoc.updateInBatch(batch, {avatarUrl: "new avatar"});
 await batch.commit();
@@ -313,13 +330,12 @@ let userCollection: FirestoreCollection<User> = userDoc.parentCollection;
 
 ### 8. A subcollection pattern:
 
-You have a subcollection `actions` inside your `Game` document. You allow client app to freely create and update document in this `actions`.
-When the time is up, you get all `Action` from `actions` subcollection as user input.
-Then you have to delete all the documents in the `actions` subcollection to make sure next time you get, all `Action` is newly created.
-Frequently create and delele documents is too expensive.
+**Reference to a sub-collection is NOT SUPPORTED in the current version of flashstore.  
+Please wait for updates!**  
 
-So there is a solution, you define a link to an array of `Action` document (eg: `activeActions`).
-Then you can make a Firebase Cloud Function to listen create/update operations in `actions` collection and add DocumentReference of these to `activeActions` array.  
-Note: `actions` collection should be root collection instead of subcollection to make sure `@LinkFirestoreDocumentArray` works :D (or there is an update soon to fix this)
-
-Now what you need to reset is only `activeActions` field while you can sure that all `Action` in `activeAction` array are newly created documents.
+Pattern introduction:
+- You want to allow clients to directly connect to firestore database.  
+- For example, you allow clients to create their own document to a sub-collection. Then you want reset the sub-collection for new writes, so you need to delete each document in the sub-collection.  
+- These delete operations cost a lot while after deletions, your sub-collection will be soon full of new documents.  
+  
+=> So there is a solution, you can create a referenced document array to take care of which document is new. Now you can access all new documents without reset the sub-collection.

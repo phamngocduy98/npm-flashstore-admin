@@ -1,13 +1,13 @@
 import EventEmitter from "events";
 
-import * as admin from "firebase-admin";
+import {firebase} from "../FirebaseImport";
 
 import {DocumentData, FirestoreCollection, FirestoreDocument} from "../internal";
 import {FDUnionArray} from "./FDUnionArray";
 
 /**
  * FDArrayTracker class for Flashstore Library
- * https://github.com/phamngocduy98/node_flashstore_library
+ * https://github.com/phamngocduy98/npm-flashstore-core
  */
 export class FDArrayTracker<D extends DocumentData> extends EventEmitter.EventEmitter {
     private _currentIdList?: string[];
@@ -73,7 +73,7 @@ export class FDArrayTracker<D extends DocumentData> extends EventEmitter.EventEm
      */
     add(...docs: FirestoreDocument<D>[]) {
         const refs = docs.map((doc) => doc.ref);
-        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayUnion(...refs)});
+        return this.parent.ref.update({[this.arrayName]: firebase.firestore.FieldValue.arrayUnion(...refs)});
     }
 
     /**
@@ -82,7 +82,7 @@ export class FDArrayTracker<D extends DocumentData> extends EventEmitter.EventEm
      */
     delete(...docs: FirestoreDocument<D>[]) {
         const refs = docs.map((doc) => doc.ref);
-        return this.parent.ref.update({[this.arrayName]: admin.firestore.FieldValue.arrayRemove(...refs)});
+        return this.parent.ref.update({[this.arrayName]: firebase.firestore.FieldValue.arrayRemove(...refs)});
     }
 
     _updateIdList(docIds: string[]): any {
@@ -103,7 +103,7 @@ export class FDArrayTracker<D extends DocumentData> extends EventEmitter.EventEm
         if (removed.length > 0) this.emit(Events.ITEM_REMOVED, removed);
     }
 
-    _updateRefList(docRefs: admin.firestore.DocumentReference[]): any {
+    _updateRefList(docRefs: firebase.firestore.DocumentReference[]): any {
         return this._updateIdList(docRefs.map((ref) => ref.id));
     }
 

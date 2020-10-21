@@ -1,6 +1,5 @@
 import {expect} from "chai";
 import {OnArrayChangedListener} from "../../src";
-import {Village} from "../../sample_db/Village";
 import {db} from "../index";
 
 describe("FDArrayTracker tests", function () {

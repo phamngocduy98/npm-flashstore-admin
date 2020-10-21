@@ -25,7 +25,8 @@ describe("Firebase Document tests", function () {
     });
 
     it("update document", async () => {
-        const originUserData = new User("CREATE", "create");
+        const friendDoc = db.users.document("FRIEND_ID");
+        const originUserData = new User("CREATE", "create", friendDoc);
         const userDoc = await db.users.create("user_test", originUserData);
         const updateUserData = new User("UPDATE", "update");
         await userDoc.update(updateUserData);
@@ -34,10 +35,19 @@ describe("Firebase Document tests", function () {
         expect(userData).not.null;
         expect(userData!.name).equal(updateUserData.name);
         expect(userData!.avatarUrl).equal(updateUserData.avatarUrl);
+        expect(userData!.friends).lengthOf(0);
+        expect(userData!.activeFriend).equal(null);
 
-        await userDoc.update({name: "UPDATE_PARTIAL"});
+        await userDoc.update({name: "UPDATE_PARTIAL", friends: [userDoc], activeFriend: userDoc});
         userData = await userDoc.get();
         expect(userData!.name).equal("UPDATE_PARTIAL");
+        expect(userData!.friends).lengthOf(1);
+        expect(userData!.friends[0]).equal(userDoc);
+        expect(userData!.activeFriend).equal(userDoc);
+
+        await userDoc.update({activeFriend: null});
+        userData = await userDoc.get();
+        expect(userData!.activeFriend).equal(null);
     });
 
     it("set document", async () => {

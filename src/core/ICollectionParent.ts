@@ -1,4 +1,4 @@
-import * as admin from "firebase-admin";
+import {firebase} from "../FirebaseImport";
 import {
     Database,
     DocumentData,
@@ -10,12 +10,12 @@ import {
 import EventEmitter from "events";
 
 interface IAbstractReference {
-    collection(id: string): admin.firestore.CollectionReference;
+    collection(id: string): firebase.firestore.CollectionReference;
 }
 
 /**
  * ICollectionParent interface for Flashstore Library
- * https://github.com/phamngocduy98/node_flashstore_library
+ * https://github.com/phamngocduy98/npm-flashstore-core
  */
 export abstract class ICollectionParent extends EventEmitter.EventEmitter {
     private collections: Map<string, FirestoreCollection<any>>;
