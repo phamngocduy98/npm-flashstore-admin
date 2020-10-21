@@ -1,13 +1,14 @@
 # Flashstore admin
 **WARNING: Flashstore is currently in early beta version which is under development, may cause unexpected behaviors and should only be used in personal project.**  
   
-![npm](https://img.shields.io/npm/v/@phamngocduy98/flashstore)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/phamngocduy98/node_flashstore_library/Coverage%20check)
-[![codecov](https://codecov.io/gh/phamngocduy98/node_flashstore_library/branch/master/graph/badge.svg)](https://codecov.io/gh/phamngocduy98/node_flashstore_library)
+![npm](https://img.shields.io/npm/v/@phamngocduy98/flashstore-admin)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/phamngocduy98/npm-flashstore-admin/Coverage%20check)
+[![codecov](https://codecov.io/gh/phamngocduy98/npm-flashstore-admin/branch/master/graph/badge.svg?token=IJ7YKI7PVJ)](https://codecov.io/gh/phamngocduy98/npm-flashstore-admin)
 ![npm](https://img.shields.io/npm/dt/@phamngocduy98/flashstore)
-![node-lts (scoped)](https://img.shields.io/node/v-lts/@phamngocduy98/flashstore)
-![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/@phamngocduy98/flashstore/dev/typescript)
-![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/phamngocduy98/node_flashstore_library/firebase-admin)
+![npm](https://img.shields.io/npm/dt/@phamngocduy98/flashstore-admin)  
+![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/phamngocduy98/npm-flashstore-admin/firebase-admin)
+![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/@phamngocduy98/flashstore-admin/dev/typescript)
+![node-lts (scoped)](https://img.shields.io/node/v-lts/@phamngocduy98/flashstore-admin)
 
 A firebase firestore library that making it easier to CRUD data with typescript
 
