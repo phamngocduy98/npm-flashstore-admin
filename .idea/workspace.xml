@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9f452c1f-3ba9-4b03-ad18-74640d7d8376" name="Default Changelist" comment="use flashstore-core submodule">
+      <change beforePath="$PROJECT_DIR$/sample_db/Village.ts" beforeDir="false" afterPath="$PROJECT_DIR$/sample_db/Village.ts" afterDir="false" />
+    </list>
+    <list id="b22f4e6d-5d8e-485b-bd04-7ef4e7431ced" name="Revert &quot;fix .set() overwrite dataValue lose the link between data vs document. Add coverage badge codecov&quot;" comment="Revert &quot;fix .set() overwrite dataValue lose the link between data vs document. Add coverage badge codecov&quot;&#10;&#10;This reverts commit e4c6f168" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="ProjectId" id="1hTojmTkEYqewLLKGjILiTudkW4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/core" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs.mocha.mocha_node_package_dir" value="$PROJECT_DIR$/node_modules/mocha" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\firebase-flashstore\flashstore-admin\node_modules\prettier" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+    <property name="ts.external.directory.path" value="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\firebase-flashstore\flashstore-admin\node_modules\typescript\lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\firebase-flashstore\flashstore-admin\src" />
+      <recent name="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\firebase-flashstore\flashstore" />
+      <recent name="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\flashstore\flashstore" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\firebase-flashstore\flashstore-admin\src\core" />
+      <recent name="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\firebase-flashstore\flashstore\test\core" />
+      <recent name="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\firebase-flashstore\flashstore\src\schema" />
+      <recent name="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\firebase-flashstore\flashstore\src\realtime" />
+      <recent name="C:\PERFORMANCE_DEV\QuanTroMaSoiBot\firebase-flashstore\flashstore\src\core" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.prettier">
+    <configuration name="prettier-check" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="prettier-check" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="prettier" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="prettier" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="tslint" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="tslint" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="types-check" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="types-check" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.prettier" />
+        <item itemvalue="npm.prettier-check" />
+        <item itemvalue="npm.types-check" />
+        <item itemvalue="npm.tslint" />
+        <item itemvalue="npm.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9f452c1f-3ba9-4b03-ad18-74640d7d8376" name="Default Changelist" comment="" />
+      <created>1600044581024</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600044581024</updated>
+      <workItem from="1600044582952" duration="13630000" />
+      <workItem from="1600422168735" duration="1032000" />
+      <workItem from="1600788939850" duration="866000" />
+      <workItem from="1601021137570" duration="1337000" />
+      <workItem from="1601024965169" duration="4488000" />
+      <workItem from="1601080946602" duration="1229000" />
+      <workItem from="1601479150035" duration="3753000" />
+      <workItem from="1602244923912" duration="14747000" />
+      <workItem from="1602420929638" duration="5534000" />
+      <workItem from="1602464588535" duration="23513000" />
+      <workItem from="1602551721432" duration="10614000" />
+      <workItem from="1603243285540" duration="2591000" />
+      <workItem from="1603265434014" duration="1555000" />
+      <workItem from="1603268124173" duration="410000" />
+    </task>
+    <task id="LOCAL-00001" summary="publish to npmjs instead of github package">
+      <created>1600045183748</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1600045183748</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update README import">
+      <created>1600052576987</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1600052576987</updated>
+    </task>
+    <task id="LOCAL-00003" summary="close #1 add ci, test scripts">
+      <created>1600061273920</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1600061273920</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix ci_merge_master.yml">
+      <created>1600061705943</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1600061705943</updated>
+    </task>
+    <task id="LOCAL-00005" summary="lint, prettier ci ready">
+      <created>1600065419596</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1600065419596</updated>
+    </task>
+    <task id="LOCAL-00006" summary="release 0.0.1b">
+      <created>1600066861475</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1600066861475</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fix npm publish run twice because of script named 'publish' in package.json">
+      <created>1600067477698</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1600067477698</updated>
+    </task>
+    <task id="LOCAL-00008" summary="release 0.0.1c">
+      <created>1600068427420</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1600068427420</updated>
+    </task>
+    <task id="LOCAL-00009" summary="release 0.0.1c">
+      <created>1600068574292</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1600068574292</updated>
+    </task>
+    <task id="LOCAL-00010" summary="release 0.0.1d forget to build before publish :(">
+      <created>1600068866324</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1600068866324</updated>
+    </task>
+    <task id="LOCAL-00011" summary="release 0.0.1d forget to increase version to 0.0.1d too :(">
+      <created>1600068926736</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1600068926736</updated>
+    </task>
+    <task id="LOCAL-00012" summary="release 0.0.1e, close #4, fix &quot;main&quot; entry">
+      <created>1600422473336</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1600422473336</updated>
+    </task>
+    <task id="LOCAL-00013" summary="edit readme: add badge, add engines.node=&quot;^12&quot;">
+      <created>1600789143613</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1600789143613</updated>
+    </task>
+    <task id="LOCAL-00014" summary="edit readme: add badge, add engines.node=&quot;^12&quot;">
+      <created>1600789361820</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1600789361820</updated>
+    </task>
+    <task id="LOCAL-00015" summary="clean up build files">
+      <created>1600789787561</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1600789787561</updated>
+    </task>
+    <task id="LOCAL-00016" summary="release 0.0.1f, fix .get() not return null when document not exists">
+      <created>1601022441215</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1601022441216</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix .set() overwrite dataValue lose the link between data vs document. Add coverage badge codecov">
+      <created>1601480609959</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1601480609959</updated>
+    </task>
+    <task id="LOCAL-00018" summary="try to use codecov">
+      <created>1601480770975</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1601480770975</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fix .set() overwrite dataValue lose the link between data vs document. Add coverage badge codecov">
+      <created>1601481341733</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1601481341733</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fix .set() overwrite dataValue lose the link between data vs document. Add coverage badge codecov">
+      <created>1601482404995</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1601482404995</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Implement FirestoreDocumentArray.ts. better type checking for linkedArray, linkedDocument.">
+      <created>1602261482292</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1602261482292</updated>
+    </task>
+    <task id="LOCAL-00022" summary="REFACTOR: shorten name: FDArrayTracker, FDTracker, FDUnionArray. Reorder files.&#10;CHANGES: Schema use FDUnionArray instead of normal Array.&#10;IMPROVE: more tests">
+      <created>1602493490705</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1602493490705</updated>
+    </task>
+    <task id="LOCAL-00023" summary="REFACTOR: LinkFirestoreDocument =&gt; RefFDocument, LinkFirestoreDocumentArray =&gt; RefFDUnionArray, forceRefresh =&gt; fromCached. FirestoreDocument.isExists =&gt; _exists. &#10;IMPROVE: improve getArray performance, add _id field in DocumentData for querying. Remove unused method of FDArrayTracker. add more comment.&#10;FIX BUG: FDUnionArray item not null when not exists">
+      <created>1602563933478</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1602563933478</updated>
+    </task>
+    <task id="LOCAL-00024" summary="REFACTOR: LinkFirestoreDocument =&gt; RefFDocument, LinkFirestoreDocumentArray =&gt; RefFDUnionArray, forceRefresh =&gt; fromCached. FirestoreDocument.isExists =&gt; _exists. &#10;IMPROVE: improve getArray performance, add _id field in DocumentData for querying. Remove unused method of FDArrayTracker. add more comment.&#10;FIX BUG: FDUnionArray item not null when not exists">
+      <created>1602564132535</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1602564132535</updated>
+    </task>
+    <task id="LOCAL-00025" summary="release 0.0.1g, improved DocumentReference Array (FDUnionArray)">
+      <created>1602565001562</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1602565001562</updated>
+    </task>
+    <task id="LOCAL-00026" summary="release with new package name &quot;flashstore-admin&quot;, new version count: 0.0.1a, improved FirestoreDocument.update(), improve README (lib docs)">
+      <created>1603243964113</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1603243964113</updated>
+    </task>
+    <task id="LOCAL-00027" summary="release with new package name &quot;flashstore-admin&quot;, new version count: 0.0.1a, improved FirestoreDocument.update(), improve README (lib docs)">
+      <created>1603244003707</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1603244003707</updated>
+    </task>
+    <task id="LOCAL-00028" summary="update README badge">
+      <created>1603245489430</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1603245489430</updated>
+    </task>
+    <task id="LOCAL-00029" summary="move all files to core">
+      <created>1603267301851</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1603267301851</updated>
+    </task>
+    <task id="LOCAL-00030" summary="fix integrate with flashstore-admin">
+      <created>1603267768770</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1603267768770</updated>
+    </task>
+    <task id="LOCAL-00031" summary="use flashstore-core submodule">
+      <created>1603267796472</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1603267796472</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update README import" />
+    <MESSAGE value="close #1 add ci, test scripts" />
+    <MESSAGE value="fix ci_merge_master.yml" />
+    <MESSAGE value="lint, prettier ci ready" />
+    <MESSAGE value="release 0.0.1b" />
+    <MESSAGE value="fix npm publish run twice because of script named 'publish' in package.json" />
+    <MESSAGE value="release 0.0.1c" />
+    <MESSAGE value="release 0.0.1d forget to build before publish :(" />
+    <MESSAGE value="release 0.0.1d forget to increase version to 0.0.1d too :(" />
+    <MESSAGE value="release 0.0.1e, close #4, fix &quot;main&quot; entry" />
+    <MESSAGE value="edit readme: add badge, add engines.node=&quot;^12&quot;" />
+    <MESSAGE value="clean up build files" />
+    <MESSAGE value="release 0.0.1f, fix .get() not return null when document not exists" />
+    <MESSAGE value="try to use codecov" />
+    <MESSAGE value="fix .set() overwrite dataValue lose the link between data vs document. Add coverage badge codecov" />
+    <MESSAGE value="Implement FirestoreDocumentArray.ts. better type checking for linkedArray, linkedDocument." />
+    <MESSAGE value="REFACTOR: shorten name: FDArrayTracker, FDTracker, FDUnionArray. Reorder files.&#10;CHANGES: Schema use FDUnionArray instead of normal Array.&#10;IMPROVE: more tests" />
+    <MESSAGE value="REFACTOR: LinkFirestoreDocument =&gt; RefFDocument, LinkFirestoreDocumentArray =&gt; RefFDUnionArray, forceRefresh =&gt; fromCached. FirestoreDocument.isExists =&gt; _exists. &#10;IMPROVE: improve getArray performance, add _id field in DocumentData for querying. Remove unused method of FDArrayTracker. add more comment.&#10;FIX BUG: FDUnionArray item not null when not exists" />
+    <MESSAGE value="release 0.0.1g, improved DocumentReference Array (FDUnionArray)" />
+    <MESSAGE value="release with new package name &quot;flashstore-admin&quot;, new version count: 0.0.1a, improved FirestoreDocument.update()" />
+    <MESSAGE value="release with new package name &quot;flashstore-admin&quot;, new version count: 0.0.1a, improved FirestoreDocument.update(), improve README (lib docs)" />
+    <MESSAGE value="update README badge" />
+    <MESSAGE value="move all files to core" />
+    <MESSAGE value="fix integrate with flashstore-admin" />
+    <MESSAGE value="use flashstore-core submodule" />
+    <option name="LAST_COMMIT_MESSAGE" value="use flashstore-core submodule" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="432" y="97" key="#codecov-report" timestamp="1601479943824">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="432" y="97" key="#codecov-report/0.0.1536.824@0.0.1536.824" timestamp="1601479943824" />
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602563836411">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1602563836411" />
+    <state x="93" y="93" width="1350" height="638" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1602513321346">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1536.824@0.0.1536.824" timestamp="1602513321346" />
+    <state x="508" y="214" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1600057914369">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="508" y="214" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1600057914369" />
+    <state x="574" y="128" key="#com.intellij.ide.util.MemberChooser" timestamp="1602428301882">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="574" y="128" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1602428301882" />
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1603243468152">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1603243468152" />
+    <state x="432" y="97" key="#prettier" timestamp="1602493043487">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="432" y="97" key="#prettier/0.0.1536.824@0.0.1536.824" timestamp="1602493043487" />
+    <state x="174" y="0" width="1218" height="824" key="CommitChangelistDialog2" timestamp="1603268339906">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="174" y="0" width="1218" height="824" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1603268339906" />
+    <state width="725" height="438" key="DebuggerActiveHint" timestamp="1602557327530">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="725" height="438" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1602557327530" />
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1603268044917">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1603268044917" />
+    <state x="548" y="153" key="FileChooserDialogImpl" timestamp="1603267429846">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="548" y="153" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1603267429846" />
+    <state width="1515" height="155" key="GridCell.Tab.0.bottom" timestamp="1603268536547">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="155" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1603268536547" />
+    <state width="1515" height="155" key="GridCell.Tab.0.center" timestamp="1603268536547">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="155" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1603268536547" />
+    <state width="1515" height="155" key="GridCell.Tab.0.left" timestamp="1603268536546">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="155" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1603268536546" />
+    <state width="1515" height="155" key="GridCell.Tab.0.right" timestamp="1603268536547">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="155" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1603268536547" />
+    <state width="1515" height="410" key="GridCell.Tab.1.bottom" timestamp="1602565624115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1602565624115" />
+    <state width="1515" height="410" key="GridCell.Tab.1.center" timestamp="1602565624115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1602565624115" />
+    <state width="1515" height="410" key="GridCell.Tab.1.left" timestamp="1602565624115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1602565624115" />
+    <state width="1515" height="410" key="GridCell.Tab.1.right" timestamp="1602565624115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1602565624115" />
+    <state width="1515" height="410" key="GridCell.Tab.2.bottom" timestamp="1602565624115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1602565624115" />
+    <state width="1515" height="410" key="GridCell.Tab.2.center" timestamp="1602565624115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1602565624115" />
+    <state width="1515" height="410" key="GridCell.Tab.2.left" timestamp="1602565624115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1602565624115" />
+    <state width="1515" height="410" key="GridCell.Tab.2.right" timestamp="1602565624115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1602565624115" />
+    <state width="1515" height="410" key="GridCell.Tab.3.bottom" timestamp="1602565624116">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1602565624116" />
+    <state width="1515" height="410" key="GridCell.Tab.3.center" timestamp="1602565624116">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1602565624116" />
+    <state width="1515" height="410" key="GridCell.Tab.3.left" timestamp="1602565624116">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1602565624116" />
+    <state width="1515" height="410" key="GridCell.Tab.3.right" timestamp="1602565624116">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="410" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1602565624116" />
+    <state x="657" y="280" width="221" height="282" key="MultipleFileMergeDialog" timestamp="1601481130919">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="657" y="280" width="221" height="282" key="MultipleFileMergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1601481130919" />
+    <state x="512" y="114" key="RollbackChangesDialog" timestamp="1600422260043">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="512" y="114" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1600422260043" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1603267707060">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1603267707060" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1603268390126">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1603268390126" />
+    <state x="579" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602564924659">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="579" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1602564924659" />
+    <state x="303" y="138" width="981" height="582" key="find.popup" timestamp="1603245077728">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="303" y="138" width="981" height="582" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1603245077728" />
+    <state x="518" y="125" key="git4idea.branch.GitSmartOperationDialog" timestamp="1602564914775">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="518" y="125" key="git4idea.branch.GitSmartOperationDialog/0.0.1536.824@0.0.1536.824" timestamp="1602564914775" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1601022148153">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1601022148153" />
+    <state x="425" y="66" width="672" height="676" key="search.everywhere.popup" timestamp="1602508502115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="66" width="672" height="676" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1602508502115" />
+  </component>
+</project>
