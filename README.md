@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/phamngocduy98/npm-flashstore-admin/branch/master/graph/badge.svg?token=IJ7YKI7PVJ)](https://codecov.io/gh/phamngocduy98/npm-flashstore-admin)
 ![npm](https://img.shields.io/npm/dt/@phamngocduy98/flashstore)
 ![npm](https://img.shields.io/npm/dt/@phamngocduy98/flashstore-admin)  
-![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/phamngocduy98/npm-flashstore-admin/firebase-admin)
+![npm peer dependency version](https://img.shields.io/npm/dependency-version/@phamngocduy98/flashstore-admin/peer/firebase-admin)
 ![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/@phamngocduy98/flashstore-admin/dev/typescript)
 ![node-lts (scoped)](https://img.shields.io/node/v-lts/@phamngocduy98/flashstore-admin)
 
