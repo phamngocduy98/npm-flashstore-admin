@@ -20,6 +20,7 @@ describe("Firebase Document tests", function () {
         const userDoc = await db.users.create("user_test", originUserData);
         const userData = await userDoc.get();
         expect(userData).not.null;
+        expect(userData!._id).equal("user_test");
         expect(userData!.name).equal(originUserData.name);
         expect(userData!.avatarUrl).equal(originUserData.avatarUrl);
     });
@@ -56,6 +57,17 @@ describe("Firebase Document tests", function () {
         await userDoc.set(newUserData);
         const userData = await userDoc.get();
         expect(userData).not.null;
+        expect(userData!.name).equal(newUserData.name);
+        expect(userData!.avatarUrl).equal(newUserData.avatarUrl);
+    });
+
+    it("set not exist document", async () => {
+        const newUserData = new User("SET", "set");
+        const userDoc = await db.users.document("user_test22");
+        await userDoc.set(newUserData);
+        const userData = await userDoc.get();
+        expect(userData).not.null;
+        expect(userData!._id).equal("user_test22");
         expect(userData!.name).equal(newUserData.name);
         expect(userData!.avatarUrl).equal(newUserData.avatarUrl);
     });
