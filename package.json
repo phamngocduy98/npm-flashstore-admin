@@ -1,6 +1,6 @@
 {
   "name": "@phamngocduy98/flashstore-admin",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.1",
   "description": "A firebase cloud firestore library that making it easier to CRUD data with typescript",
   "repository": "https://github.com/phamngocduy98/npm-flashstore-admin",
   "author": "Pham Ngoc Duy",
@@ -11,7 +11,7 @@
     "build"
   ],
   "engines": {
-    "node": "^12"
+    "node": ">=12"
   },
   "scripts": {
     "test": "mocha --exit --require ts-node/register ./test/**/*.ts",
@@ -28,12 +28,12 @@
     "firebase-admin": ">=9.1.1"
   },
   "devDependencies": {
-    "firebase-admin": "^9.1.1",
     "@types/chai": "^4.2.12",
     "@types/mocha": "^8.0.3",
     "chai": "^4.2.0",
     "codecov": "^3.7.2",
     "dotenv": "^8.2.0",
+    "firebase-admin": "^9.1.1",
     "mocha": "^8.1.3",
     "nyc": "^15.1.0",
     "prettier": "^2.1.1",
